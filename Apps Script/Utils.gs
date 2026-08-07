@@ -114,4 +114,22 @@ function obtenerDatosRegistro(hoja, fila) {
   };
 }
 
+/**
+ * Devuelve una descripción amigable del candidato apoyado.
+ *
+ * Ejemplos:
+ * 👑 Miss TI
+ * 🤵 Mister PMO
+ *
+ * @param {Object} registro Información del participante.
+ * @returns {string}
+ */
+function obtenerDescripcionCandidato(registro) {
 
+  if (registro.candidato === "Miss") {
+    return `👑 Miss ${registro.area}`;
+  }
+
+  return `🤵 Mister ${registro.area}`;
+
+}

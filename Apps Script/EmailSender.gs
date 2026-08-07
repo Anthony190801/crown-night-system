@@ -76,9 +76,91 @@ function construirCorreo(registro) {
   };
 }
 
+/**
+ * Envía el ticket electrónico a un participante.
+ *
+ * @param {Object} registro Registro del participante.
+ */
+function enviarCorreo(registro) {
+  try {
+    const correo = construirCorreo(registro);
 
+    GmailApp.sendEmail(
+      correo.destinatario,
+      correo.asunto,
+      "",
+      {
+        htmlBody: correo.cuerpoHTML
+      }
+    );
+  } catch (error) {
+    registrarError("EmailSender", error);
+    throw error;
+  }
+}
 
+/**
+ * Actualiza el estado del envío del correo
+ * de un participante.
+ *
+ * @param {Object} registro Registro del participante.
+ */
+function actualizarEstadoCorreo(registro) {
+  try {
+    const hoja = SpreadsheetApp
+      .getActiveSpreadsheet()
+      .getSheetByName(SHEETS.RESPUESTAS);
+    hoja
+      .getRange(registro.fila, COLUMNS.EMAIL_STATUS)
+      .setValue(STATUS.EMAIL.SENT);
+    hoja
+      .getRange(registro.fila, COLUMNS.SENT_DATE)
+      .setValue(new Date());
+  } catch (error) {
+    registrarError("EmailSender", error);
+    throw error;
+  }
+}
 
+/**
+ * Envía los tickets pendientes a todos los participantes
+ * cuyo pago haya sido validado.
+ */
+function enviarTicketsPendientes() {
 
+  const registros = obtenerRegistrosPendientes();
 
+  if (registros.length === 0) {
+    SpreadsheetApp
+      .getUi()
+      .alert(
+        "No existen tickets pendientes por enviar."
+      );
+    return;
+  }
+
+  let enviados = 0;
+  let errores = 0;
+
+  registros.forEach(registro => {
+    try {
+      enviarCorreo(registro);
+      actualizarEstadoCorreo(registro);
+      enviados++;
+    } catch (error) {
+      errores++;
+      registrarError("EmailSender",error);
+    }
+  });
+
+  SpreadsheetApp
+    .getUi()
+    .alert(
+      `Proceso finalizado.
+
+  Tickets enviados: ${enviados}
+
+  Errores: ${errores}`
+    );
+}
 

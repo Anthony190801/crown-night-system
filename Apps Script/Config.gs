@@ -24,13 +24,58 @@ const PROJECT = {
 const IMAGES = {
 
   LOGO_CROWN:
-    "https://...",
+    "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/logos/logo-crown.png",
 
   LOGO_SEDIPRO:
-    "https://...",
+    "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/logos/logo-sedipro.png",
 
   BANNER:
-    "https://..."
+    "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/banners/banner-email.jpeg"
+
+};
+
+/**
+ * ----------------------------------------------------------
+ * COLORES
+ * ----------------------------------------------------------
+ */
+
+const COLORS = {
+  PRIMARY: "#1B1B2F",
+  GOLD: "#D4AF37",
+  BACKGROUND: "#F5F5F5",
+  CARD: "#FAFAFA",
+  WARNING: "#FFF8E7",
+  WHITE: "#FFFFFF",
+  TEXT: "#333333",
+  TEXT_BODY:"#444444",
+  TEXT_SECONDARY: "#555555",
+  TEXT_MUTED:"#666666",
+  TEXT_LIGHT: "#BBBBBB",
+  BORDER: "#E5E5E5"
+};
+
+/**
+ * ----------------------------------------------------------
+ * ESTILOS
+ * ----------------------------------------------------------
+ */
+
+const STYLES = {
+
+  BORDER_RADIUS: "12px"
+
+};
+
+/**
+ * ----------------------------------------------------------
+ * LAYOUT
+ * ----------------------------------------------------------
+ */
+
+const LAYOUT = {
+
+  MAX_WIDTH: "650px"
 
 };
 

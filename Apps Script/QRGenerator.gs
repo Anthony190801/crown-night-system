@@ -25,6 +25,7 @@ QRGenerator.gs:
 function construirContenidoQR(registro) {
   return JSON.stringify({
     evento: PROJECT.NAME,
+    version: PROJECT.VERSION,
     codigo: registro.codigo,
     participante:
       `${registro.nombres} ${registro.apellidos}`,

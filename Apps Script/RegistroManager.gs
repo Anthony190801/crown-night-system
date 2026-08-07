@@ -35,7 +35,7 @@ function crearRegistroInicial(codigo) {
  *
  * @param {GoogleAppsScript.Spreadsheet.Sheet} hoja Hoja de respuestas.
  * @param {number} fila Número de fila a actualizar.
- * @param {Object} registro Objeto generado por construirRegistro().
+ * @param {Object} registro Objeto generado por crearRegistroInicial().
  */
 function actualizarRegistro(hoja,fila,registro) {
 
