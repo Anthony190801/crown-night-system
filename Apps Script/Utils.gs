@@ -127,9 +127,9 @@ function obtenerDatosRegistro(hoja, fila) {
 function obtenerDescripcionCandidato(registro) {
 
   if (registro.candidato === "Miss") {
-    return `👑 Miss ${registro.area}`;
+    return `Miss ${registro.area}`;
   }
 
-  return `🤵 Mister ${registro.area}`;
+  return `Mister ${registro.area}`;
 
 }

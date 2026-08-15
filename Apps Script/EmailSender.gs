@@ -22,23 +22,21 @@ EmailSender.gs:
  *
  * Condiciones:
  * - Pago = Pagado
- * - Correo = Pendiente
+ * - Correo = Pendiente || Error
  * - Fecha de envío = Vacía
  *
  * @returns {Array<Object>}
  */
 function obtenerRegistrosPendientes() {
-
   const hoja = SpreadsheetApp
     .getActiveSpreadsheet()
     .getSheetByName(SHEETS.RESPUESTAS);
-
+  
   const ultimaFila = hoja.getLastRow();
 
   if (ultimaFila <= 1) {
     return [];
   }
-
   const datos = hoja
     .getRange(2, 1, ultimaFila - 1, COLUMNS.OBSERVATIONS)
     .getValues();
@@ -50,11 +48,11 @@ function obtenerRegistrosPendientes() {
     const estadoCorreo = fila[COLUMNS.EMAIL_STATUS - 1];
     const fechaEnvio = fila[COLUMNS.SENT_DATE - 1];
 
-    if (
-      estadoPago === STATUS.PAYMENT.PAID &&
-      estadoCorreo === STATUS.EMAIL.PENDING &&
-      fechaEnvio === "") {
+    const correoReintentable =
+      estadoCorreo === STATUS.EMAIL.PENDING ||
+      estadoCorreo === STATUS.EMAIL.ERROR;
 
+    if (estadoPago === STATUS.PAYMENT.PAID && correoReintentable && fechaEnvio === "") {
       registros.push(crearObjetoRegistro(fila,indice + 2));
     }
   });
@@ -111,14 +109,44 @@ function actualizarEstadoCorreo(registro) {
       .getActiveSpreadsheet()
       .getSheetByName(SHEETS.RESPUESTAS);
     hoja
-      .getRange(registro.fila, COLUMNS.EMAIL_STATUS)
+      .getRange(registro.fila,COLUMNS.EMAIL_STATUS)
       .setValue(STATUS.EMAIL.SENT);
     hoja
-      .getRange(registro.fila, COLUMNS.SENT_DATE)
+      .getRange(registro.fila,COLUMNS.SENT_DATE)
       .setValue(new Date());
+    hoja
+      .getRange(registro.fila,COLUMNS.OBSERVATIONS)
+      .clearContent();
   } catch (error) {
-    registrarError("EmailSender", error);
+    registrarError("EmailSender",error);
     throw error;
+  }
+}
+
+/**
+ * Actualiza el estado del correo cuando ocurre
+ * un error durante el envío.
+ *
+ * @param {Object} registro Registro del participante.
+ * @param {Error} error Error producido durante el envío.
+ */
+function actualizarEstadoCorreoError(registro, error) {
+  try {
+    const hoja = SpreadsheetApp
+      .getActiveSpreadsheet()
+      .getSheetByName(SHEETS.RESPUESTAS);
+    hoja
+      .getRange(registro.fila, COLUMNS.EMAIL_STATUS)
+      .setValue(STATUS.EMAIL.ERROR);
+    hoja
+      .getRange(registro.fila, COLUMNS.SENT_DATE)
+      .clearContent();
+    hoja
+      .getRange(registro.fila, COLUMNS.OBSERVATIONS)
+      .setValue(`Error de envío: ${error.message}`);
+  } catch (updateError) {
+    registrarError("EmailSender - Actualización de error",updateError);
+    throw updateError;
   }
 }
 
@@ -144,10 +172,12 @@ function enviarTicketsPendientes() {
 
   registros.forEach(registro => {
     try {
+      //throw new Error("Error de prueba de envío de correo");
       enviarCorreo(registro);
       actualizarEstadoCorreo(registro);
       enviados++;
     } catch (error) {
+      actualizarEstadoCorreoError(registro,error);
       errores++;
       registrarError("EmailSender",error);
     }
@@ -158,9 +188,9 @@ function enviarTicketsPendientes() {
     .alert(
       `Proceso finalizado.
 
-  Tickets enviados: ${enviados}
+      Tickets enviados: ${enviados}
 
-  Errores: ${errores}`
+      Errores: ${errores}`
     );
 }
 

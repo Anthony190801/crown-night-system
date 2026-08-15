@@ -172,7 +172,7 @@ const COLUMNS = {
  */
 
 const EMAIL = {
-  SUBJECT: "🎟️ Tu Ticket Oficial - Crown Night Sedipro UNT 2026"
+  SUBJECT: "Tu Ticket Oficial - Crown Night Sedipro UNT 2026"
 };
 
 /**

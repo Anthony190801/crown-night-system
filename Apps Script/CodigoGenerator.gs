@@ -62,17 +62,29 @@ function obtenerSiguienteContador() {
 }
 
 function generarCodigo(apellidos,nombres,area,candidato) {
-  const iniciales = obtenerIniciales(apellidos,nombres);
-  const prefijoArea =obtenerPrefijoArea(area);
-  const prefijoCandidato =obtenerPrefijoCandidato(candidato);
-  const contador =formatearContador(obtenerSiguienteContador());
+  const lock = LockService.getScriptLock();
 
-  return [
-    iniciales,
-    prefijoArea,
-    prefijoCandidato,
-    contador
-  ].join(CODE.SEPARATOR);
+  try {
+    lock.waitLock(10000);
+    const iniciales = obtenerIniciales(apellidos,nombres);
+    const prefijoArea =obtenerPrefijoArea(area);
+    const prefijoCandidato =obtenerPrefijoCandidato(candidato);
+    const contador =formatearContador(obtenerSiguienteContador());
+
+    return [
+      iniciales,
+      prefijoArea,
+      prefijoCandidato,
+      contador
+    ].join(CODE.SEPARATOR);
+  } 
+  catch (error) {
+    registrarError("CodigoGenerator",error);
+    throw error;
+  } 
+  finally {
+    lock.releaseLock();
+  }
 }
 
 
