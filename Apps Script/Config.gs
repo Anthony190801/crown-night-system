@@ -8,7 +8,6 @@ Config.gs:
  * PROYECTO
  * ----------------------------------------------------------
  */
-
 const PROJECT = {
   NAME: "Crown Night Sedipro 2026",
   VERSION: "1.0.0",
@@ -20,18 +19,41 @@ const PROJECT = {
  * IMÁGENES
  * ----------------------------------------------------------
  */
-
 const IMAGES = {
-
   LOGO_CROWN:
     "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/logos/logo-crown.png",
-
   LOGO_SEDIPRO:
     "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/logos/logo-sedipro.png",
-
   BANNER:
     "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/banners/banner-email.jpeg"
+};
 
+/**
+ * ----------------------------------------------------------
+ * IMÁGENES DE CANDIDATOS
+ * ----------------------------------------------------------
+ */
+const CANDIDATE_IMAGES = {
+  "Miss PMO":
+    "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/miss/pmo-miss.webp",
+  "Miss GTH":
+    "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/miss/gth-miss.webp",
+  "Miss LTK":
+    "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/miss/ltk-miss.webp",
+  "Miss MKT":
+    "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/miss/mkt-miss.webp",
+  "Miss TI":
+    "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/miss/ti-miss.webp",
+  "Mister PMO":
+    "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/mister/pmo-mister.webp",
+  "Mister GTH":
+    "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/mister/gth-mister.webp",
+  "Mister LTK":
+    "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/mister/ltk-mister.webp",
+  "Mister MKT":
+    "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/mister/mkt-mister.webp",
+  "Mister TI":
+    "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/mister/ti-mister.webp"
 };
 
 /**
@@ -39,7 +61,6 @@ const IMAGES = {
  * COLORES
  * ----------------------------------------------------------
  */
-
 const COLORS = {
   PRIMARY: "#1B1B2F",
   GOLD: "#D4AF37",
@@ -60,11 +81,8 @@ const COLORS = {
  * ESTILOS
  * ----------------------------------------------------------
  */
-
 const STYLES = {
-
   BORDER_RADIUS: "12px"
-
 };
 
 /**
@@ -72,11 +90,8 @@ const STYLES = {
  * LAYOUT
  * ----------------------------------------------------------
  */
-
 const LAYOUT = {
-
   MAX_WIDTH: "650px"
-
 };
 
 /**
@@ -84,7 +99,6 @@ const LAYOUT = {
  * HOJAS
  * ----------------------------------------------------------
  */
-
 const SHEETS = {
   RESPUESTAS: "RESPUESTAS"
 };
@@ -94,7 +108,6 @@ const SHEETS = {
  * ESTADOS
  * ----------------------------------------------------------
  */
-
 const STATUS = {
   PAYMENT: {
     PENDING: "Pendiente",
@@ -113,7 +126,6 @@ const STATUS = {
  * ÁREAS
  * ----------------------------------------------------------
  */
-
 const AREAS = {
   "PMO": "PMO",
   "GTH": "GTH",
@@ -127,7 +139,6 @@ const AREAS = {
  * CANDIDATOS
  * ----------------------------------------------------------
  */
-
 const CANDIDATES = {
   "Miss": "MS",
   "Mister": "MR"
@@ -138,7 +149,6 @@ const CANDIDATES = {
  * CÓDIGO
  * ----------------------------------------------------------
  */
-
 const CODE = {
   DIGITS: 4,
   SEPARATOR: "-"
@@ -170,7 +180,6 @@ const COLUMNS = {
  * CORREOS
  * ----------------------------------------------------------
  */
-
 const EMAIL = {
   SUBJECT: "Tu Ticket Oficial - Crown Night Sedipro UNT 2026"
 };
@@ -180,7 +189,6 @@ const EMAIL = {
  * CONFIGURACIÓN DEL SERVICIO QR
  * ----------------------------------------------------------
  */
-
 const QR = {
   /**
    * URL base del servicio generador de códigos QR.
@@ -191,6 +199,4 @@ const QR = {
    */
   SIZE: "250x250"
 };
-
-
 

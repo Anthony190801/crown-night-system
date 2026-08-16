@@ -1,7 +1,17 @@
 /*
 Código.gs
-- Punto de entrada del sistema.
+
+- Puntos de entrada del sistema.
 */
+
+/**
+ * ----------------------------------------------------------
+ * MÓDULO: Puntos de Entrada
+ * Archivo: Código.gs
+ * Proyecto: Crown Night Sedipro 2026
+ * Autor: Área TI - SEDIPRO UNT
+ * ----------------------------------------------------------
+ */
 
 /**
  * Se ejecuta automáticamente cuando Google Forms
@@ -20,3 +30,20 @@ function onFormSubmit(e) {
     throw error;
   }
 }
+
+/**
+ * Sirve la interfaz web del Dashboard.
+ *
+ * @returns {GoogleAppsScript.HTML.HtmlOutput}
+ */
+function doGet() {
+  return HtmlService
+    .createTemplateFromFile("DashboardUI")
+    .evaluate()
+    .setTitle(PROJECT.NAME + " - Dashboard")
+    .setXFrameOptionsMode(
+      HtmlService.XFrameOptionsMode.ALLOWALL
+    );
+}
+
+
