@@ -4,8 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Crown Night Sedipro 2026</title>
+
   <style>
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -17,7 +20,7 @@
     #app {
       max-width: 900px;
       margin: 0 auto;
-      background: white;
+      background: #ffffff;
       padding: 30px;
       border-radius: 12px;
     }
@@ -45,7 +48,15 @@
     .dato {
       margin-bottom: 10px;
     }
+
+    .separador {
+      margin: 25px 0;
+      border: none;
+      border-top: 1px solid #ddd;
+    }
+
   </style>
+
 </head>
 
 <body>
@@ -61,16 +72,17 @@
     </div>
     <div id="datos" class="datos"></div>
   </div>
-
   <script>
     /**
      * ------------------------------------------------------
      * INICIALIZACIÓN DEL DASHBOARD
      * ------------------------------------------------------
      */
-    document.addEventListener("DOMContentLoaded", cargarDashboard);
+    document.addEventListener("DOMContentLoaded",cargarDashboard);
     /**
-     * Solicita los datos al backend de Apps Script.
+     * ------------------------------------------------------
+     * CARGA DE DATOS
+     * ------------------------------------------------------
      */
     function cargarDashboard() {
       actualizarEstado("Cargando información...");
@@ -80,74 +92,96 @@
         .obtenerDatosDashboard();
     }
     /**
-     * Recibe correctamente los datos del backend.
-     *
-     * @param {Object} datos
+     * ------------------------------------------------------
+     * MOSTRAR DATOS
+     * ------------------------------------------------------
      */
     function mostrarDatos(datos) {
-      actualizarEstado("Conexión con el backend establecida correctamente.");
+      actualizarEstado(
+        "Conexión con el backend establecida correctamente."
+      );
+      const resumen = datos.resumen;
       const datosContainer = document.getElementById("datos");
+
       datosContainer.innerHTML = `
-        <div class="dato">
-          <strong>Total de registros:</strong>
-          ${datos.resumen.totalRegistros}
-        </div>
+
+        <h2>
+          Estado de la votación
+        </h2>
 
         <div class="dato">
           <strong>Votos válidos:</strong>
-          ${datos.resumen.votosValidos}
+          ${resumen.votosValidos}
+        </div>
+
+        <div class="dato">
+          <strong>Pendientes de completar:</strong>
+          ${resumen.pendientes}
+        </div>
+
+        <div class="dato">
+          <strong>Con incidencia:</strong>
+          ${resumen.incidencias}
         </div>
 
         <div class="dato">
           <strong>Pagos pendientes:</strong>
-          ${datos.resumen.pagosPendientes}
+          ${resumen.pagosPendientes}
         </div>
+
+        <div class="dato">
+          <strong>Total registrados:</strong>
+          ${resumen.totalRegistros}
+        </div>
+
+
+        <hr class="separador">
+
+
+        <h2>
+          Indicadores del sistema
+        </h2>
 
         <div class="dato">
           <strong>Pagos validados:</strong>
-          ${datos.resumen.pagosValidados}
+          ${resumen.pagosValidados}
         </div>
 
         <div class="dato">
-          <strong>Tickets pendientes:</strong>
-          ${datos.resumen.ticketsPendientes}
-        </div>
-
-        <div class="dato">
-          <strong>Envíos con error:</strong>
-          ${datos.resumen.enviosError}
-        </div>
-
-        <div class="dato">
-          <strong>Votos en proceso:</strong>
-          ${datos.resumen.votosEnProceso}
+          <strong>Tickets enviados:</strong>
+          ${resumen.ticketsEnviados}
         </div>
 
         <div class="dato">
           <strong>Porcentaje de envío:</strong>
-          ${datos.resumen.porcentajeEnvio.toFixed(2)}%
+          ${resumen.porcentajeEnvio.toFixed(2)}%
         </div>
+
+        <div class="dato">
+          <strong>Estados desconocidos:</strong>
+          ${resumen.registrosEstadoDesconocido}
+        </div>
+
       `;
     }
     /**
-     * Maneja errores provenientes del backend.
-     *
-     * @param {Error} error
+     * ------------------------------------------------------
+     * MANEJO DE ERRORES
+     * ------------------------------------------------------
      */
     function mostrarError(error) {
       actualizarEstado("No fue posible obtener los datos del Dashboard.",true);
       console.error(error);
     }
     /**
-     * Actualiza el mensaje de estado.
-     *
-     * @param {string} mensaje
-     * @param {boolean} esError
+     * ------------------------------------------------------
+     * ESTADO DE CONEXIÓN
+     * ------------------------------------------------------
      */
-    function actualizarEstado(mensaje, esError = false) {
+    function actualizarEstado(mensaje,esError = false) {
       const estado = document.getElementById("estado");
       estado.textContent = mensaje;
-      estado.classList.toggle("error", esError);
+      estado.classList.toggle("error",esError);
     }
   </script>
 </body>
