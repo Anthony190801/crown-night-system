@@ -192,8 +192,30 @@ function procesarDatosDashboard(datos) {
   });
   /**
    * --------------------------------------------------------
+   * INDICADORES PÚBLICOS
+   * --------------------------------------------------------
+   *
+   * Los votos de Miss y Mister se calculan a partir
+   * de las estadísticas consolidadas por área.
+   */
+  resumen.votosMiss =
+    Object.values(porArea)
+      .reduce(
+        (total, area) => total + area.miss,
+        0
+      );
+  resumen.votosMister =
+    Object.values(porArea)
+      .reduce(
+        (total, area) => total + area.mister,
+        0
+      );
+  /**
+   * --------------------------------------------------------
    * PORCENTAJE DE ENVÍO
    * --------------------------------------------------------
+   *
+   * Indicador operativo interno.
    *
    * Representa qué porcentaje de los pagos validados
    * terminó convirtiéndose en votos válidos.
@@ -382,13 +404,19 @@ function construirDashboardVacio() {
   return {
     resumen: {
       totalRegistros: 0,
+      // Indicadores públicos
       votosValidos: 0,
+      votosMiss: 0,
+      votosMister: 0,
+      // Estado de votación
       pendientes: 0,
       incidencias: 0,
       pagosPendientes: 0,
+      // Indicadores adicionales
       pagosValidados: 0,
       ticketsEnviados: 0,
       porcentajeEnvio: 0,
+      // Control de datos
       registrosEstadoDesconocido: 0
     },
     miss: miss,
