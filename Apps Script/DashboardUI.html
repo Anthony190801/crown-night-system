@@ -2,187 +2,1921 @@
 <html lang="es">
 
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Crown Night Sedipro 2026</title>
 
   <style>
 
+    /* ======================================================
+       VARIABLES
+       ====================================================== */
+
+    :root {
+
+      --primary: #1B1B2F;
+      --primary-light: #252544;
+
+      --gold: #D4AF37;
+      --gold-light: #F0D778;
+
+      --background: #F5F5F5;
+      --card: #FFFFFF;
+
+      --text: #222222;
+      --text-secondary: #666666;
+      --text-light: #999999;
+
+      --border: #E5E5E5;
+
+      --success: #2E7D32;
+      --success-bg: #EAF6EA;
+
+      --warning: #B77900;
+      --warning-bg: #FFF8E7;
+
+      --danger: #B3261E;
+      --danger-bg: #FDECEA;
+
+      --shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+
+      --radius: 16px;
+
+    }
+
+
+    /* ======================================================
+       RESET
+       ====================================================== */
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+
     body {
-      font-family: Arial, sans-serif;
+
       margin: 0;
-      padding: 40px;
-      background: #f5f5f5;
-      color: #333;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background:
+        var(--background);
+
+      color:
+        var(--text);
+
     }
 
-    #app {
-      max-width: 900px;
+
+    /* ======================================================
+       CONTENEDOR PRINCIPAL
+       ====================================================== */
+
+    .app {
+
+      width: 100%;
+
+      min-height: 100vh;
+
+    }
+
+
+    .container {
+
+      width: min(
+        1400px,
+        calc(100% - 40px)
+      );
+
       margin: 0 auto;
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
+
     }
 
-    h1 {
-      margin-top: 0;
+
+    /* ======================================================
+       HEADER
+       ====================================================== */
+
+    .header {
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          #11111F
+        );
+
+      color:
+        var(--card);
+
+      padding:
+        24px 0;
+
+      border-bottom:
+        1px solid
+        rgba(212, 175, 55, 0.25);
+
     }
 
-    .estado {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 8px;
-      background: #f0f0f0;
+
+    .header-content {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 30px;
+
     }
 
-    .error {
-      background: #ffe5e5;
-      color: #a00000;
+
+    .brand {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 18px;
+
     }
 
-    .datos {
-      margin-top: 20px;
+
+    .brand-logos {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+
     }
 
-    .dato {
-      margin-bottom: 10px;
+
+    .logo {
+
+      width: 58px;
+
+      height: 58px;
+
+      object-fit: contain;
+
+      display: block;
+
     }
 
-    .separador {
-      margin: 25px 0;
-      border: none;
-      border-top: 1px solid #ddd;
+
+    .logo-divider {
+
+      width: 1px;
+
+      height: 42px;
+
+      background:
+        rgba(255, 255, 255, 0.25);
+
+    }
+
+
+    .brand-text h1 {
+
+      margin: 0;
+
+      font-size: 24px;
+
+      font-weight: 700;
+
+      letter-spacing: 0.3px;
+
+    }
+
+
+    .brand-text p {
+
+      margin: 5px 0 0;
+
+      color:
+        rgba(255, 255, 255, 0.65);
+
+      font-size: 13px;
+
+    }
+
+
+    /* ======================================================
+       INDICADOR EN VIVO
+       ====================================================== */
+
+    .live-indicator {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 9px;
+
+      padding:
+        9px 15px;
+
+      border:
+        1px solid
+        rgba(212, 175, 55, 0.45);
+
+      border-radius:
+        999px;
+
+      background:
+        rgba(212, 175, 55, 0.08);
+
+      color:
+        var(--gold-light);
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      letter-spacing: 1px;
+
+      white-space: nowrap;
+
+    }
+
+
+    .live-dot {
+
+      width: 8px;
+
+      height: 8px;
+
+      border-radius: 50%;
+
+      background:
+        var(--gold);
+
+      box-shadow:
+        0 0 0 5px
+        rgba(212, 175, 55, 0.12);
+
+    }
+
+
+    /* ======================================================
+       HERO
+       ====================================================== */
+
+    .hero {
+
+      padding:
+        50px 0 30px;
+
+      text-align: center;
+
+    }
+
+
+    .hero-label {
+
+      display: inline-block;
+
+      margin-bottom: 12px;
+
+      color:
+        var(--gold);
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      letter-spacing: 2px;
+
+      text-transform: uppercase;
+
+    }
+
+
+    .hero h2 {
+
+      margin: 0;
+
+      font-size:
+        clamp(28px, 4vw, 44px);
+
+      font-weight: 700;
+
+      color:
+        var(--primary);
+
+    }
+
+
+    .hero p {
+
+      margin:
+        12px auto 0;
+
+      max-width: 650px;
+
+      color:
+        var(--text-secondary);
+
+      font-size: 15px;
+
+      line-height: 1.6;
+
+    }
+
+
+    /* ======================================================
+       ESTADO DE LA VOTACIÓN
+       ====================================================== */
+
+    .section-title {
+
+      margin: 0 0 18px;
+
+      font-size: 18px;
+
+      font-weight: 700;
+
+      color:
+        var(--primary);
+
+    }
+
+
+    .section-title::after {
+
+      content: "";
+
+      display: block;
+
+      width: 35px;
+
+      height: 3px;
+
+      margin-top: 8px;
+
+      background:
+        var(--gold);
+
+      border-radius:
+        999px;
+
+    }
+
+
+    .status-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 16px;
+
+    }
+
+
+    .status-card {
+
+      background:
+        var(--card);
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        var(--radius);
+
+      padding:
+        22px;
+
+      box-shadow:
+        var(--shadow);
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+    }
+
+
+    .status-card:hover {
+
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 14px 34px
+        rgba(0, 0, 0, 0.10);
+
+    }
+
+
+    .status-icon {
+
+      font-size: 22px;
+
+      margin-bottom: 12px;
+
+    }
+
+
+    .status-value {
+
+      font-size: 32px;
+
+      font-weight: 700;
+
+      color:
+        var(--primary);
+
+      line-height: 1;
+
+    }
+
+
+    .status-label {
+
+      margin-top: 9px;
+
+      color:
+        var(--text-secondary);
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      letter-spacing: 1px;
+
+      text-transform: uppercase;
+
+    }
+
+
+    .status-card.valid {
+
+      border-top:
+        3px solid
+        var(--success);
+
+    }
+
+
+    .status-card.pending {
+
+      border-top:
+        3px solid
+        var(--warning);
+
+    }
+
+
+    .status-card.incident {
+
+      border-top:
+        3px solid
+        var(--danger);
+
+    }
+
+
+    .status-card.payment {
+
+      border-top:
+        3px solid
+        var(--gold);
+
+    }
+
+
+    /* ======================================================
+       TOTAL REGISTRADOS
+       ====================================================== */
+
+    .total-card {
+
+      margin-top: 16px;
+
+      background:
+        var(--primary);
+
+      color:
+        var(--card);
+
+      border-radius:
+        var(--radius);
+
+      padding:
+        22px 26px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 20px;
+
+      box-shadow:
+        var(--shadow);
+
+    }
+
+
+    .total-label {
+
+      color:
+        rgba(255, 255, 255, 0.65);
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      letter-spacing: 1px;
+
+      text-transform: uppercase;
+
+    }
+
+
+    .total-number {
+
+      margin-top: 5px;
+
+      font-size: 30px;
+
+      font-weight: 700;
+
+    }
+
+
+    .total-badge {
+
+      color:
+        var(--gold-light);
+
+      font-size: 26px;
+
+    }
+
+
+    /* ======================================================
+       CANDIDATOS
+       ====================================================== */
+
+    .candidate-section {
+
+      margin-top: 45px;
+
+    }
+
+
+    .category-header {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      margin-bottom: 18px;
+
+    }
+
+
+    .category-title {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      margin: 0;
+
+      color:
+        var(--primary);
+
+      font-size: 22px;
+
+    }
+
+
+    .category-title span {
+
+      color:
+        var(--gold);
+
+    }
+
+
+    .candidate-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(5, 1fr);
+
+      gap: 16px;
+
+    }
+
+
+    .candidate-card {
+
+      overflow: hidden;
+
+      background:
+        var(--card);
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        var(--radius);
+
+      box-shadow:
+        var(--shadow);
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+    }
+
+
+    .candidate-card:hover {
+
+      transform:
+        translateY(-4px);
+
+      box-shadow:
+        0 16px 38px
+        rgba(0, 0, 0, 0.12);
+
+    }
+
+
+    .candidate-image-wrapper {
+
+      position: relative;
+
+      width: 100%;
+
+      aspect-ratio: 4 / 5;
+
+      overflow: hidden;
+
+      background:
+        #EDEDED;
+
+    }
+
+
+    .candidate-image {
+
+      width: 100%;
+
+      height: 100%;
+
+      object-fit: cover;
+
+      display: block;
+
+    }
+
+
+    .candidate-position {
+
+      position: absolute;
+
+      top: 12px;
+
+      left: 12px;
+
+      padding:
+        5px 9px;
+
+      border-radius:
+        999px;
+
+      background:
+        rgba(27, 27, 47, 0.88);
+
+      color:
+        var(--gold-light);
+
+      font-size: 10px;
+
+      font-weight: 700;
+
+      letter-spacing: 0.8px;
+
+    }
+
+
+    .candidate-info {
+
+      padding:
+        17px;
+
+    }
+
+
+    .candidate-area {
+
+      color:
+        var(--text-secondary);
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      letter-spacing: 1.2px;
+
+      text-transform: uppercase;
+
+    }
+
+
+    .candidate-name {
+
+      margin-top: 5px;
+
+      font-size: 15px;
+
+      font-weight: 700;
+
+      color:
+        var(--primary);
+
+    }
+
+
+    .candidate-votes {
+
+      display: flex;
+
+      align-items: baseline;
+
+      gap: 6px;
+
+      margin-top: 13px;
+
+    }
+
+
+    .candidate-votes-number {
+
+      font-size: 27px;
+
+      font-weight: 700;
+
+      color:
+        var(--gold);
+
+    }
+
+
+    .candidate-votes-label {
+
+      color:
+        var(--text-muted);
+
+      font-size: 11px;
+
+    }
+
+
+    /* ======================================================
+       VOTOS POR ÁREA
+       ====================================================== */
+
+    .areas-section {
+
+      margin-top: 50px;
+
+    }
+
+
+    .areas-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(5, 1fr);
+
+      gap: 16px;
+
+    }
+
+
+    .area-card {
+
+      background:
+        var(--card);
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        var(--radius);
+
+      padding:
+        20px;
+
+      box-shadow:
+        var(--shadow);
+
+    }
+
+
+    .area-name {
+
+      color:
+        var(--primary);
+
+      font-size: 16px;
+
+      font-weight: 700;
+
+    }
+
+
+    .area-total {
+
+      margin-top: 12px;
+
+      font-size: 28px;
+
+      font-weight: 700;
+
+      color:
+        var(--gold);
+
+    }
+
+
+    .area-label {
+
+      color:
+        var(--text-secondary);
+
+      font-size: 11px;
+
+    }
+
+
+    .area-breakdown {
+
+      display: flex;
+
+      gap: 10px;
+
+      margin-top: 16px;
+
+    }
+
+
+    .area-type {
+
+      flex: 1;
+
+      padding:
+        9px;
+
+      border-radius:
+        8px;
+
+      background:
+        var(--background);
+
+      text-align: center;
+
+    }
+
+
+    .area-type strong {
+
+      display: block;
+
+      color:
+        var(--primary);
+
+      font-size: 16px;
+
+    }
+
+
+    .area-type span {
+
+      display: block;
+
+      margin-top: 3px;
+
+      color:
+        var(--text-secondary);
+
+      font-size: 9px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.5px;
+
+    }
+
+
+    /* ======================================================
+       INFORMACIÓN DEL SISTEMA
+       ====================================================== */
+
+    .system-section {
+
+      margin-top: 50px;
+
+      margin-bottom: 40px;
+
+    }
+
+
+    .system-card {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 20px;
+
+      padding:
+        18px 22px;
+
+      background:
+        var(--card);
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        var(--radius);
+
+    }
+
+
+    .system-status {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 9px;
+
+      color:
+        var(--success);
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+    }
+
+
+    .system-status-dot {
+
+      width: 8px;
+
+      height: 8px;
+
+      border-radius: 50%;
+
+      background:
+        var(--success);
+
+    }
+
+
+    .last-update {
+
+      color:
+        var(--text-secondary);
+
+      font-size: 12px;
+
+    }
+
+
+    /* ======================================================
+       FOOTER
+       ====================================================== */
+
+    .footer {
+
+      padding:
+        25px 0 35px;
+
+      text-align: center;
+
+      color:
+        var(--text-light);
+
+      font-size: 11px;
+
+    }
+
+
+    /* ======================================================
+       RESPONSIVE
+       ====================================================== */
+
+    @media (max-width: 1100px) {
+
+      .candidate-grid,
+      .areas-grid {
+
+        grid-template-columns:
+          repeat(3, 1fr);
+
+      }
+
+    }
+
+
+    @media (max-width: 800px) {
+
+      .header-content {
+
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
+
+      }
+
+
+      .status-grid {
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
+      }
+
+
+      .candidate-grid,
+      .areas-grid {
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
+      }
+
+    }
+
+
+    @media (max-width: 520px) {
+
+      .container {
+
+        width:
+          min(
+            100% - 24px,
+            1400px
+          );
+
+      }
+
+
+      .header {
+
+        padding:
+          18px 0;
+
+      }
+
+
+      .brand-text h1 {
+
+        font-size:
+          19px;
+
+      }
+
+
+      .logo {
+
+        width:
+          48px;
+
+        height:
+          48px;
+
+      }
+
+
+      .hero {
+
+        padding:
+          35px 0 20px;
+
+      }
+
+
+      .status-grid {
+
+        grid-template-columns:
+          1fr 1fr;
+
+        gap: 10px;
+
+      }
+
+
+      .status-card {
+
+        padding:
+          16px;
+
+      }
+
+
+      .status-value {
+
+        font-size:
+          25px;
+
+      }
+
+
+      .candidate-grid,
+      .areas-grid {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .total-card,
+      .system-card {
+
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
+
+      }
+
     }
 
   </style>
 
 </head>
 
+
 <body>
-  <div id="app">
-    <h1>
-      Crown Night Sedipro 2026
-    </h1>
-    <p>
-      Dashboard de votación
-    </p>
-    <div id="estado" class="estado">
-      Cargando información...
-    </div>
-    <div id="datos" class="datos"></div>
-  </div>
-  <script>
-    /**
-     * ------------------------------------------------------
-     * INICIALIZACIÓN DEL DASHBOARD
-     * ------------------------------------------------------
-     */
-    document.addEventListener("DOMContentLoaded",cargarDashboard);
-    /**
-     * ------------------------------------------------------
-     * CARGA DE DATOS
-     * ------------------------------------------------------
-     */
-    function cargarDashboard() {
-      actualizarEstado("Cargando información...");
-      google.script.run
-        .withSuccessHandler(mostrarDatos)
-        .withFailureHandler(mostrarError)
-        .obtenerDatosDashboard();
-    }
-    /**
-     * ------------------------------------------------------
-     * MOSTRAR DATOS
-     * ------------------------------------------------------
-     */
-    function mostrarDatos(datos) {
-      actualizarEstado(
-        "Conexión con el backend establecida correctamente."
-      );
-      const resumen = datos.resumen;
-      const datosContainer = document.getElementById("datos");
 
-      datosContainer.innerHTML = `
+  <div class="app">
+
+
+    <!-- ==================================================
+         HEADER
+         ================================================== -->
+
+    <header class="header">
+
+      <div class="container header-content">
+
+        <div class="brand">
+
+          <div class="brand-logos">
+
+            <img
+              class="logo"
+              src="https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/logos/logo-crown.png"
+              alt="Crown Night"
+            >
+
+            <div class="logo-divider"></div>
+
+            <img
+              class="logo"
+              src="https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/logos/logo-sedipro.png"
+              alt="SEDIPRO UNT"
+            >
+
+          </div>
+
+
+          <div class="brand-text">
+
+            <h1>
+              Crown Night
+            </h1>
+
+            <p>
+              SEDIPRO UNT · 2026
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="live-indicator">
+
+          <span class="live-dot"></span>
+
+          EN VIVO
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+
+    <main class="container">
+
+
+      <!-- ==================================================
+           HERO
+           ================================================== -->
+
+      <section class="hero">
+
+        <div class="hero-label">
+          Resultados oficiales
+        </div>
 
         <h2>
+          Votación Crown Night 2026
+        </h2>
+
+        <p>
+          Resultados de apoyo registrados y validados
+          durante la jornada de votación.
+        </p>
+
+      </section>
+
+
+
+      <!-- ==================================================
+           ESTADO DE LA VOTACIÓN
+           ================================================== -->
+
+      <section>
+
+        <h3 class="section-title">
           Estado de la votación
-        </h2>
+        </h3>
 
-        <div class="dato">
-          <strong>Votos válidos:</strong>
-          ${resumen.votosValidos}
+
+        <div class="status-grid">
+
+
+          <article class="status-card valid">
+
+            <div class="status-icon">
+              🗳️
+            </div>
+
+            <div
+              class="status-value"
+              id="votosValidos"
+            >
+              0
+            </div>
+
+            <div class="status-label">
+              Votos válidos
+            </div>
+
+          </article>
+
+
+          <article class="status-card pending">
+
+            <div class="status-icon">
+              ⏳
+            </div>
+
+            <div
+              class="status-value"
+              id="pendientes"
+            >
+              0
+            </div>
+
+            <div class="status-label">
+              Pendientes
+            </div>
+
+          </article>
+
+
+          <article class="status-card incident">
+
+            <div class="status-icon">
+              ❌
+            </div>
+
+            <div
+              class="status-value"
+              id="incidencias"
+            >
+              0
+            </div>
+
+            <div class="status-label">
+              Incidencias
+            </div>
+
+          </article>
+
+
+          <article class="status-card payment">
+
+            <div class="status-icon">
+              💰
+            </div>
+
+            <div
+              class="status-value"
+              id="pagosPendientes"
+            >
+              0
+            </div>
+
+            <div class="status-label">
+              Pagos pendientes
+            </div>
+
+          </article>
+
+
         </div>
 
-        <div class="dato">
-          <strong>Pendientes de completar:</strong>
-          ${resumen.pendientes}
+
+        <div class="total-card">
+
+          <div>
+
+            <div class="total-label">
+              Participantes registrados
+            </div>
+
+            <div
+              class="total-number"
+              id="totalRegistros"
+            >
+              0
+            </div>
+
+          </div>
+
+          <div class="total-badge">
+            👥
+          </div>
+
         </div>
 
-        <div class="dato">
-          <strong>Con incidencia:</strong>
-          ${resumen.incidencias}
+      </section>
+
+
+
+      <!-- ==================================================
+           MISS
+           ================================================== -->
+
+      <section class="candidate-section">
+
+        <div class="category-header">
+
+          <h3 class="category-title">
+
+            <span>👑</span>
+
+            MISS
+
+          </h3>
+
         </div>
 
-        <div class="dato">
-          <strong>Pagos pendientes:</strong>
-          ${resumen.pagosPendientes}
+
+        <div
+          class="candidate-grid"
+          id="missContainer"
+        >
+
+          <!-- Candidatas cargadas mediante JavaScript -->
+
         </div>
 
-        <div class="dato">
-          <strong>Total registrados:</strong>
-          ${resumen.totalRegistros}
+      </section>
+
+
+
+      <!-- ==================================================
+           MISTER
+           ================================================== -->
+
+      <section class="candidate-section">
+
+        <div class="category-header">
+
+          <h3 class="category-title">
+
+            <span>👑</span>
+
+            MISTER
+
+          </h3>
+
         </div>
 
 
-        <hr class="separador">
+        <div
+          class="candidate-grid"
+          id="misterContainer"
+        >
 
+          <!-- Candidatos cargados mediante JavaScript -->
 
-        <h2>
-          Indicadores del sistema
-        </h2>
-
-        <div class="dato">
-          <strong>Pagos validados:</strong>
-          ${resumen.pagosValidados}
         </div>
 
-        <div class="dato">
-          <strong>Tickets enviados:</strong>
-          ${resumen.ticketsEnviados}
+      </section>
+
+
+
+      <!-- ==================================================
+           VOTOS POR ÁREA
+           ================================================== -->
+
+      <section class="areas-section">
+
+        <h3 class="section-title">
+          Votos por área
+        </h3>
+
+
+        <div
+          class="areas-grid"
+          id="areasContainer"
+        >
+
+          <!-- Áreas cargadas mediante JavaScript -->
+
         </div>
 
-        <div class="dato">
-          <strong>Porcentaje de envío:</strong>
-          ${resumen.porcentajeEnvio.toFixed(2)}%
+      </section>
+
+
+
+      <!-- ==================================================
+           ESTADO DEL SISTEMA
+           ================================================== -->
+
+      <section class="system-section">
+
+        <div class="system-card">
+
+          <div class="system-status">
+
+            <span class="system-status-dot"></span>
+
+            Sistema conectado
+
+          </div>
+
+
+          <div
+            class="last-update"
+            id="ultimaActualizacion"
+          >
+            Esperando información...
+          </div>
+
         </div>
 
-        <div class="dato">
-          <strong>Estados desconocidos:</strong>
-          ${resumen.registrosEstadoDesconocido}
-        </div>
+      </section>
 
-      `;
-    }
+
+    </main>
+
+
+
+    <!-- ==================================================
+         FOOTER
+         ================================================== -->
+
+    <footer class="footer">
+
+      <div class="container">
+
+        Crown Night Sedipro UNT 2026 ·
+        Área TI
+
+      </div>
+
+    </footer>
+
+
+  </div>
+
+
+  <!-- ====================================================
+       JAVASCRIPT
+       ==================================================== -->
+
+  <script>
+
     /**
      * ------------------------------------------------------
-     * MANEJO DE ERRORES
+     * INICIALIZACIÓN
      * ------------------------------------------------------
      */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      cargarDashboard
+    );
+
+
+    /**
+     * ------------------------------------------------------
+     * CARGAR DASHBOARD
+     * ------------------------------------------------------
+     */
+
+    function cargarDashboard() {
+
+      google.script.run
+
+        .withSuccessHandler(
+          mostrarDashboard
+        )
+
+        .withFailureHandler(
+          mostrarError
+        )
+
+        .obtenerDatosDashboard();
+
+    }
+
+
+    /**
+     * ------------------------------------------------------
+     * MOSTRAR DASHBOARD
+     * ------------------------------------------------------
+     */
+
+    function mostrarDashboard(datos) {
+
+      mostrarResumen(
+        datos.resumen
+      );
+
+      mostrarCandidatos(
+        datos.miss,
+        "missContainer"
+      );
+
+      mostrarCandidatos(
+        datos.mister,
+        "misterContainer"
+      );
+
+      mostrarAreas(
+        datos.porArea
+      );
+
+      mostrarActualizacion(
+        datos.actualizado
+      );
+
+    }
+
+
+    /**
+     * ------------------------------------------------------
+     * RESUMEN
+     * ------------------------------------------------------
+     */
+
+    function mostrarResumen(resumen) {
+
+      document.getElementById(
+        "votosValidos"
+      ).textContent =
+        resumen.votosValidos;
+
+
+      document.getElementById(
+        "pendientes"
+      ).textContent =
+        resumen.pendientes;
+
+
+      document.getElementById(
+        "incidencias"
+      ).textContent =
+        resumen.incidencias;
+
+
+      document.getElementById(
+        "pagosPendientes"
+      ).textContent =
+        resumen.pagosPendientes;
+
+
+      document.getElementById(
+        "totalRegistros"
+      ).textContent =
+        resumen.totalRegistros;
+
+    }
+
+
+    /**
+     * ------------------------------------------------------
+     * CANDIDATOS
+     * ------------------------------------------------------
+     */
+
+    function mostrarCandidatos(
+      candidatos,
+      containerId
+    ) {
+
+      const container =
+        document.getElementById(
+          containerId
+        );
+
+
+      const lista =
+        Object.values(candidatos);
+
+
+      container.innerHTML =
+        lista.map(
+          candidato => {
+
+            return `
+
+              <article class="candidate-card">
+
+                <div class="candidate-image-wrapper">
+
+                  <img
+                    class="candidate-image"
+                    src="${candidato.imagen}"
+                    alt="${candidato.nombre}"
+                    loading="lazy"
+                  >
+
+                  <div class="candidate-position">
+
+                    ${candidato.tipo}
+
+                  </div>
+
+                </div>
+
+
+                <div class="candidate-info">
+
+                  <div class="candidate-area">
+
+                    ${candidato.area}
+
+                  </div>
+
+                  <div class="candidate-name">
+
+                    ${candidato.nombre}
+
+                  </div>
+
+
+                  <div class="candidate-votes">
+
+                    <span
+                      class="candidate-votes-number"
+                    >
+
+                      ${candidato.votos}
+
+                    </span>
+
+                    <span
+                      class="candidate-votes-label"
+                    >
+
+                      votos
+
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+            `;
+
+          }
+        ).join("");
+
+    }
+
+
+    /**
+     * ------------------------------------------------------
+     * VOTOS POR ÁREA
+     * ------------------------------------------------------
+     */
+
+    function mostrarAreas(areas) {
+
+      const container =
+        document.getElementById(
+          "areasContainer"
+        );
+
+
+      const lista =
+        Object.values(areas);
+
+
+      container.innerHTML =
+        lista.map(
+          area => {
+
+            return `
+
+              <article class="area-card">
+
+                <div class="area-name">
+
+                  ${area.area}
+
+                </div>
+
+
+                <div class="area-total">
+
+                  ${area.votos}
+
+                </div>
+
+
+                <div class="area-label">
+
+                  votos válidos
+
+                </div>
+
+
+                <div class="area-breakdown">
+
+
+                  <div class="area-type">
+
+                    <strong>
+                      ${area.miss}
+                    </strong>
+
+                    <span>
+                      Miss
+                    </span>
+
+                  </div>
+
+
+                  <div class="area-type">
+
+                    <strong>
+                      ${area.mister}
+                    </strong>
+
+                    <span>
+                      Mister
+                    </span>
+
+                  </div>
+
+
+                </div>
+
+              </article>
+
+            `;
+
+          }
+        ).join("");
+
+    }
+
+
+    /**
+     * ------------------------------------------------------
+     * ÚLTIMA ACTUALIZACIÓN
+     * ------------------------------------------------------
+     */
+
+    function mostrarActualizacion(
+      fecha
+    ) {
+
+      const elemento =
+        document.getElementById(
+          "ultimaActualizacion"
+        );
+
+
+      const fechaObjeto =
+        new Date(fecha);
+
+
+      if (
+        Number.isNaN(
+          fechaObjeto.getTime()
+        )
+      ) {
+
+        elemento.textContent =
+          "Información actualizada";
+
+        return;
+
+      }
+
+
+      elemento.textContent =
+        "Última actualización: " +
+        fechaObjeto.toLocaleTimeString(
+          "es-PE",
+          {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+          }
+        );
+
+    }
+
+
+    /**
+     * ------------------------------------------------------
+     * ERROR
+     * ------------------------------------------------------
+     */
+
     function mostrarError(error) {
-      actualizarEstado("No fue posible obtener los datos del Dashboard.",true);
-      console.error(error);
+
+      console.error(
+        "Error al cargar Dashboard:",
+        error
+      );
+
+
+      document.getElementById(
+        "ultimaActualizacion"
+      ).textContent =
+        "No fue posible actualizar la información.";
+
     }
-    /**
-     * ------------------------------------------------------
-     * ESTADO DE CONEXIÓN
-     * ------------------------------------------------------
-     */
-    function actualizarEstado(mensaje,esError = false) {
-      const estado = document.getElementById("estado");
-      estado.textContent = mensaje;
-      estado.classList.toggle("error",esError);
-    }
+
   </script>
+
 </body>
+
 </html>

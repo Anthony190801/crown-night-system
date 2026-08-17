@@ -38,7 +38,7 @@ const CANDIDATE_IMAGES = {
     "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/miss/pmo-miss.webp",
   "Miss GTH":
     "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/miss/gth-miss.webp",
-  "Miss LTK":
+  "Miss LTK & FNZ":
     "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/miss/ltk-miss.webp",
   "Miss MKT":
     "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/miss/mkt-miss.webp",
@@ -48,7 +48,7 @@ const CANDIDATE_IMAGES = {
     "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/mister/pmo-mister.webp",
   "Mister GTH":
     "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/mister/gth-mister.webp",
-  "Mister LTK":
+  "Mister LTK & FNZ":
     "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/mister/ltk-mister.webp",
   "Mister MKT":
     "https://raw.githubusercontent.com/Anthony190801/crown-night-system/main/assets/candidatos/mister/mkt-mister.webp",
