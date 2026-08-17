@@ -127,10 +127,10 @@ const STATUS = {
  * ----------------------------------------------------------
  */
 const AREAS = {
-  "PMO": "PMO",
   "GTH": "GTH",
   "LTK & FNZ": "LTK",
   "MKT": "MKT",
+  "PMO": "PMO",
   "TI": "TI"
 };
 

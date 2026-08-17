@@ -801,12 +801,231 @@
     .candidate-votes-label {
 
       color:
-        var(--text-muted);
+        var(--text-secondary);
 
       font-size: 11px;
 
     }
 
+    /* ======================================================
+      RANKING
+      ====================================================== */
+
+    .ranking-section {
+
+      margin-top: 50px;
+
+    }
+
+
+    .ranking-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
+      gap: 20px;
+
+    }
+
+
+    .ranking-card {
+
+      background:
+        var(--card);
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        var(--radius);
+
+      padding:
+        22px;
+
+      box-shadow:
+        var(--shadow);
+
+    }
+
+
+    .ranking-title {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 9px;
+
+      margin: 0 0 18px;
+
+      color:
+        var(--primary);
+
+      font-size: 18px;
+
+    }
+
+
+    .ranking-list {
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 10px;
+
+    }
+
+
+    .ranking-item {
+
+      display: grid;
+
+      grid-template-columns:
+        38px
+        1fr
+        auto;
+
+      align-items: center;
+
+      gap: 12px;
+
+      padding:
+        12px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        10px;
+
+      background:
+        var(--background);
+
+    }
+
+
+    .ranking-position {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      width: 30px;
+
+      height: 30px;
+
+      border-radius: 50%;
+
+      background:
+        var(--primary);
+
+      color:
+        var(--gold-light);
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+    }
+
+
+    .ranking-item:first-child
+    .ranking-position {
+
+      background:
+        var(--gold);
+
+      color:
+        var(--primary);
+
+    }
+
+
+    .ranking-candidate {
+
+      min-width: 0;
+
+    }
+
+
+    .ranking-name {
+
+      color:
+        var(--primary);
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+    }
+
+
+    .ranking-area {
+
+      margin-top: 3px;
+
+      color:
+        var(--text-secondary);
+
+      font-size: 10px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.8px;
+
+    }
+
+
+    .ranking-votes {
+
+      text-align: right;
+
+    }
+
+
+    .ranking-votes-number {
+
+      display: block;
+
+      color:
+        var(--gold);
+
+      font-size: 20px;
+
+      font-weight: 700;
+
+    }
+
+
+    .ranking-votes-label {
+
+      color:
+        var(--text-secondary);
+
+      font-size: 9px;
+
+      text-transform: uppercase;
+
+    }
+
+
+    @media (max-width: 800px) {
+
+      .ranking-grid {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+    }
 
     /* ======================================================
        VOTOS POR ÁREA
@@ -1472,7 +1691,72 @@
 
       </section>
 
+      <!-- ==================================================
+          RANKING
+          ================================================== -->
 
+      <section class="ranking-section">
+
+        <h3 class="section-title">
+          Ranking oficial
+        </h3>
+
+        <div class="ranking-grid">
+
+          <!-- ================================================
+              RANKING MISS
+              ================================================ -->
+
+          <article class="ranking-card">
+
+            <h4 class="ranking-title">
+
+              <span>👑</span>
+
+              MISS
+
+            </h4>
+
+            <div
+              class="ranking-list"
+              id="rankingMissContainer"
+            >
+
+              <!-- Ranking Miss cargado mediante JavaScript -->
+
+            </div>
+
+          </article>
+
+
+          <!-- ================================================
+              RANKING MISTER
+              ================================================ -->
+
+          <article class="ranking-card">
+
+            <h4 class="ranking-title">
+
+              <span>👑</span>
+
+              MISTER
+
+            </h4>
+
+            <div
+              class="ranking-list"
+              id="rankingMisterContainer"
+            >
+
+              <!-- Ranking Mister cargado mediante JavaScript -->
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </section>
 
       <!-- ==================================================
            VOTOS POR ÁREA
@@ -1613,6 +1897,16 @@
         "misterContainer"
       );
 
+      mostrarRanking(
+        datos.ranking.miss,
+        "rankingMissContainer"
+      );
+
+      mostrarRanking(
+        datos.ranking.mister,
+        "rankingMisterContainer"
+      );
+
       mostrarAreas(
         datos.porArea
       );
@@ -1681,8 +1975,20 @@
         );
 
 
+      const ordenAreas = [
+        "GTH",
+        "LTK & FNZ",
+        "MKT",
+        "PMO",
+        "TI"
+      ];
+
       const lista =
-        Object.values(candidatos);
+        Object.values(candidatos).sort(
+          (a, b) =>
+            ordenAreas.indexOf(a.area) -
+            ordenAreas.indexOf(b.area)
+        );
 
 
       container.innerHTML =
@@ -1757,6 +2063,106 @@
 
     }
 
+    /**
+     * ------------------------------------------------------
+     * RANKING
+     * ------------------------------------------------------
+     */
+
+    function mostrarRanking(
+      ranking,
+      containerId
+    ) {
+
+      const container =
+        document.getElementById(
+          containerId
+        );
+
+
+      if (!ranking || ranking.length === 0) {
+
+        container.innerHTML = `
+          
+          <div class="ranking-item">
+
+            <div class="ranking-candidate">
+
+              <div class="ranking-name">
+                Sin resultados
+              </div>
+
+            </div>
+
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+
+      container.innerHTML =
+        ranking.map(
+          candidato => {
+
+            return `
+
+              <div class="ranking-item">
+
+                <div class="ranking-position">
+
+                  ${candidato.posicion}
+
+                </div>
+
+
+                <div class="ranking-candidate">
+
+                  <div class="ranking-name">
+
+                    ${candidato.nombre}
+
+                  </div>
+
+                  <div class="ranking-area">
+
+                    ${candidato.area}
+
+                  </div>
+
+                </div>
+
+
+                <div class="ranking-votes">
+
+                  <span
+                    class="ranking-votes-number"
+                  >
+
+                    ${candidato.votos}
+
+                  </span>
+
+                  <span
+                    class="ranking-votes-label"
+                  >
+
+                    votos
+
+                  </span>
+
+                </div>
+
+              </div>
+
+            `;
+
+          }
+        ).join("");
+
+    }
 
     /**
      * ------------------------------------------------------
@@ -1772,8 +2178,20 @@
         );
 
 
+      const ordenAreas = [
+        "GTH",
+        "LTK & FNZ",
+        "MKT",
+        "PMO",
+        "TI"
+      ];
+
       const lista =
-        Object.values(areas);
+        Object.values(areas).sort(
+          (a, b) =>
+            ordenAreas.indexOf(a.area) -
+            ordenAreas.indexOf(b.area)
+        );
 
 
       container.innerHTML =
