@@ -1396,6 +1396,7 @@
      * ------------------------------------------------------
      */
     function cargarDashboard() {
+      actualizarEstadoSistema("actualizando");
       google.script.run
         .withSuccessHandler(
           mostrarDashboard
@@ -1421,14 +1422,35 @@
      * ------------------------------------------------------
      */
     function mostrarDashboard(datos) {
-      mostrarResumen(datos.resumen);
-      mostrarDistribucion(datos.resumen);
-      mostrarCandidatos(datos.miss,"missContainer");
-      mostrarCandidatos(datos.mister,"misterContainer");
-      mostrarRanking(datos.ranking.miss,"rankingMissContainer");
-      mostrarRanking(datos.ranking.mister,"rankingMisterContainer");
-      mostrarAreas(datos.porArea);
-      mostrarActualizacion(datos.actualizado);
+      if (!datos) {
+        mostrarError({
+          message: "No se recibieron datos del Dashboard."
+        });
+        return;
+      }
+      if (datos.resumen) {
+        mostrarResumen(datos.resumen);
+        mostrarDistribucion(datos.resumen);
+      }
+      if (datos.miss) {
+        mostrarCandidatos(datos.miss,"missContainer");
+      }
+      if (datos.mister) {
+        mostrarCandidatos(datos.mister,"misterContainer");
+      }
+      if (datos.ranking && datos.ranking.miss) {
+        mostrarRanking(datos.ranking.miss,"rankingMissContainer");
+      }
+      if (datos.ranking && datos.ranking.mister) {
+        mostrarRanking(datos.ranking.mister,"rankingMisterContainer");
+      }
+      if (datos.porArea) {
+        mostrarAreas(datos.porArea);
+      }
+      if (datos.actualizado) {
+        mostrarActualizacion(datos.actualizado);
+      }
+      actualizarEstadoSistema("conectado");
     }
     /**
      * ------------------------------------------------------
@@ -1852,13 +1874,54 @@
     }
     /**
      * ------------------------------------------------------
+     * ESTADO DEL SISTEMA
+     * ------------------------------------------------------
+     */
+    function actualizarEstadoSistema(estado) {
+      const elemento = document.querySelector(".system-status");
+      const punto = document.querySelector(".system-status-dot");
+
+      if (!elemento || !punto) {
+        return;
+      }
+      if (estado === "actualizando") {
+        elemento.innerHTML = `
+          <span class="system-status-dot"></span>
+          Actualizando información...
+        `;
+        elemento.style.color = "var(--warning)";
+        punto.style.background = "var(--warning)";
+
+      } else if (estado === "conectado") {
+        elemento.innerHTML = `
+          <span class="system-status-dot"></span>
+          Sistema conectado
+        `;
+        elemento.style.color = "var(--success)";
+        const nuevoPunto = elemento.querySelector(".system-status-dot");
+        nuevoPunto.style.background = "var(--success)";
+
+      } else if (estado === "error") {
+        elemento.innerHTML = `
+          <span class="system-status-dot"></span>
+          Error de conexión
+        `;
+        elemento.style.color = "var(--danger)";
+        const nuevoPunto =elemento.querySelector(".system-status-dot");
+        nuevoPunto.style.background = "var(--danger)";
+      }
+    }
+    /**
+     * ------------------------------------------------------
      * ERROR
      * ------------------------------------------------------
      */
     function mostrarError(error) {
       console.error("Error al cargar Dashboard:",error);
-      document.getElementById("ultimaActualizacion").textContent =
-        "No fue posible actualizar la información.";
+      document.getElementById(
+        "ultimaActualizacion"
+      ).textContent ="No fue posible actualizar la información.";
+      actualizarEstadoSistema("error");
     }
   </script>
 </body>
