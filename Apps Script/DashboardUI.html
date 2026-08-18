@@ -567,18 +567,22 @@
         var(--text-secondary);
       font-size: 11px;
     }
+
     /* ======================================================
-      RANKING
+      RANKING / LIDERAZGO
       ====================================================== */
+
     .ranking-section {
       margin-top: 50px;
     }
+
     .ranking-grid {
       display: grid;
       grid-template-columns:
         repeat(2, 1fr);
       gap: 20px;
     }
+
     .ranking-card {
       background:
         var(--card);
@@ -592,6 +596,7 @@
       box-shadow:
         var(--shadow);
     }
+
     .ranking-title {
       display: flex;
       align-items: center;
@@ -601,11 +606,17 @@
         var(--primary);
       font-size: 18px;
     }
+
     .ranking-list {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
+
+    /* ------------------------------------------------------
+      ITEM DEL RANKING
+      ------------------------------------------------------ */
+
     .ranking-item {
       display: grid;
       grid-template-columns:
@@ -623,7 +634,53 @@
         10px;
       background:
         var(--background);
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
     }
+
+    .ranking-item:hover {
+      transform:
+        translateY(-2px);
+      box-shadow:
+        0 8px 20px
+        rgba(0, 0, 0, 0.08);
+    }
+
+    /* ------------------------------------------------------
+      PRIMER PUESTO
+      ------------------------------------------------------ */
+
+    .ranking-item.leader {
+      border:
+        1px solid
+        rgba(212, 175, 55, 0.55);
+      background:
+        linear-gradient(
+          135deg,
+          #FFFDF5,
+          #F9F5E7
+        );
+      box-shadow:
+        0 8px 24px
+        rgba(212, 175, 55, 0.12);
+    }
+
+    /* ------------------------------------------------------
+      EMPATE
+      ------------------------------------------------------ */
+
+    .ranking-item.tie {
+      border:
+        1px dashed
+        var(--gold);
+    }
+
+    /* ------------------------------------------------------
+      POSICIÓN
+      ------------------------------------------------------ */
+
     .ranking-position {
       display: flex;
       align-items: center;
@@ -638,22 +695,30 @@
       font-size: 12px;
       font-weight: 700;
     }
-    .ranking-item:first-child
+
+    .ranking-item.leader
     .ranking-position {
       background:
         var(--gold);
       color:
         var(--primary);
     }
+
+    /* ------------------------------------------------------
+      INFORMACIÓN DEL CANDIDATO
+      ------------------------------------------------------ */
+
     .ranking-candidate {
       min-width: 0;
     }
+
     .ranking-name {
       color:
         var(--primary);
       font-size: 14px;
       font-weight: 700;
     }
+
     .ranking-area {
       margin-top: 3px;
       color:
@@ -662,9 +727,45 @@
       text-transform: uppercase;
       letter-spacing: 0.8px;
     }
+
+    /* ------------------------------------------------------
+      ESTADO DEL LIDERAZGO
+      ------------------------------------------------------ */
+
+    .ranking-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 7px;
+      padding:
+        4px 7px;
+      border-radius:
+        999px;
+      background:
+        rgba(212, 175, 55, 0.12);
+      color:
+        var(--gold);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .ranking-status.tie-status {
+      background:
+        var(--warning-bg);
+      color:
+        var(--warning);
+    }
+
+    /* ------------------------------------------------------
+      VOTOS
+      ------------------------------------------------------ */
+
     .ranking-votes {
       text-align: right;
     }
+
     .ranking-votes-number {
       display: block;
       color:
@@ -672,18 +773,88 @@
       font-size: 20px;
       font-weight: 700;
     }
+
     .ranking-votes-label {
       color:
         var(--text-secondary);
       font-size: 9px;
       text-transform: uppercase;
     }
+
+    /* ------------------------------------------------------
+      DIFERENCIA CON EL SIGUIENTE
+      ------------------------------------------------------ */
+
+    .ranking-difference {
+      margin-top: 4px;
+      color:
+        var(--text-secondary);
+      font-size: 9px;
+      white-space: nowrap;
+    }
+
+    .ranking-difference strong {
+      color:
+        var(--primary);
+    }
+
+    /* ------------------------------------------------------
+      MENSAJE DE EMPATE
+      ------------------------------------------------------ */
+
+    .ranking-tie-message {
+      margin:
+        -2px 0 2px;
+      padding:
+        8px 10px;
+      border:
+        1px solid
+        rgba(183, 121, 0, 0.25);
+      border-radius:
+        8px;
+      background:
+        var(--warning-bg);
+      color:
+        var(--warning);
+      font-size: 10px;
+      font-weight: 700;
+      line-height:
+        1.4;
+    }
+
+    /* ------------------------------------------------------
+      RESPONSIVE
+      ------------------------------------------------------ */
+
     @media (max-width: 800px) {
       .ranking-grid {
         grid-template-columns:
           1fr;
       }
     }
+
+    @media (max-width: 520px) {
+      .ranking-item {
+        grid-template-columns:
+          34px
+          1fr;
+          auto;
+        gap: 8px;
+        padding:
+          10px;
+      }
+
+      .ranking-votes-number {
+        font-size:
+          18px;
+      }
+
+      .ranking-difference {
+        white-space:
+          normal;
+      }
+    }
+
     /* ======================================================
        VOTOS POR ÁREA
        ====================================================== */
@@ -1413,15 +1584,19 @@
           }
         ).join("");
     }
+
     /**
      * ------------------------------------------------------
-     * RANKING
+     * RANKING / LIDERAZGO
      * ------------------------------------------------------
      */
-    function mostrarRanking(ranking,containerId) {
-      const container =document.getElementById(containerId);
+    function mostrarRanking(ranking, containerId) {
+
+      const container =
+        document.getElementById(containerId);
 
       if (!ranking || ranking.length === 0) {
+
         container.innerHTML = `
           <div class="ranking-item">
             <div class="ranking-candidate">
@@ -1431,41 +1606,273 @@
             </div>
           </div>
         `;
+
         return;
       }
+
+      /*
+      * ----------------------------------------------------
+      * ORDENAR POR VOTOS
+      * ----------------------------------------------------
+      *
+      * Aunque el backend ya entregue el ranking ordenado,
+      * aquí garantizamos que el frontend trabaje con los
+      * votos reales.
+      */
+
+      const lista =
+        [...ranking].sort(
+          (a, b) =>
+            Number(b.votos) - Number(a.votos)
+        );
+
+      /*
+      * ----------------------------------------------------
+      * CALCULAR POSICIONES COMPETITIVAS
+      * ----------------------------------------------------
+      *
+      * Ejemplo:
+      *
+      * 20 votos → 1
+      * 20 votos → 1
+      * 15 votos → 3
+      *
+      * Esto corresponde al ranking competitivo.
+      */
+
+      const listaProcesada = [];
+
+      lista.forEach(
+        (candidato, index) => {
+
+          const votos =
+            Number(candidato.votos) || 0;
+
+          let posicion =
+            index + 1;
+
+          if (
+            index > 0 &&
+            votos ===
+            listaProcesada[index - 1].votos
+          ) {
+            posicion =
+              listaProcesada[index - 1].posicion;
+          }
+
+          listaProcesada.push({
+            ...candidato,
+            votos,
+            posicion
+          });
+        }
+      );
+
+      /*
+      * ----------------------------------------------------
+      * GENERAR HTML
+      * ----------------------------------------------------
+      */
+
       container.innerHTML =
-        ranking.map(
-          candidato => {
+        listaProcesada.map(
+          (candidato, index) => {
+
+            const votosActuales =
+              candidato.votos;
+
+            const votosSiguiente =
+              index < listaProcesada.length - 1
+                ? listaProcesada[index + 1].votos
+                : null;
+
+            /*
+            * ¿Es líder?
+            */
+
+            const esPrimero =
+              candidato.posicion === 1;
+
+            /*
+            * ¿Está empatado?
+            */
+
+            const empateConAnterior =
+              index > 0 &&
+              votosActuales ===
+              listaProcesada[index - 1].votos;
+
+            const empateConSiguiente =
+              votosSiguiente !== null &&
+              votosActuales === votosSiguiente;
+
+            const hayEmpate =
+              empateConAnterior ||
+              empateConSiguiente;
+
+            /*
+            * ------------------------------------------------
+            * DIFERENCIA CON EL SIGUIENTE
+            * ------------------------------------------------
+            */
+
+            let diferenciaHTML = "";
+
+            if (
+              votosSiguiente !== null &&
+              votosActuales > votosSiguiente
+            ) {
+
+              const diferencia =
+                votosActuales -
+                votosSiguiente;
+
+              diferenciaHTML = `
+                <div class="ranking-difference">
+                  <strong>+${diferencia}</strong>
+                  frente al siguiente
+                </div>
+              `;
+
+            } else if (
+              votosSiguiente !== null &&
+              votosActuales === votosSiguiente
+            ) {
+
+              diferenciaHTML = `
+                <div class="ranking-difference">
+                  Empatado con el siguiente
+                </div>
+              `;
+
+            } else {
+
+              diferenciaHTML = `
+                <div class="ranking-difference">
+                  Última posición
+                </div>
+              `;
+            }
+
+            /*
+            * ------------------------------------------------
+            * ESTADO DEL CANDIDATO
+            * ------------------------------------------------
+            */
+
+            let estadoHTML = "";
+
+            if (esPrimero && hayEmpate) {
+
+              estadoHTML = `
+                <div class="ranking-status tie-status">
+                  🤝 Empate en el 1.er puesto
+                </div>
+              `;
+
+            } else if (esPrimero) {
+
+              estadoHTML = `
+                <div class="ranking-status">
+                  👑 Líder
+                </div>
+              `;
+
+            } else if (hayEmpate) {
+
+              estadoHTML = `
+                <div class="ranking-status tie-status">
+                  🤝 Empate
+                </div>
+              `;
+            }
+
+            /*
+            * ------------------------------------------------
+            * MENSAJE DE EMPATE
+            * ------------------------------------------------
+            */
+
+            let mensajeEmpateHTML = "";
+
+            if (esPrimero && hayEmpate) {
+
+              mensajeEmpateHTML = `
+                <div class="ranking-tie-message">
+                  🤝 Existe un empate por el primer puesto.
+                  La posición se mantiene compartida.
+                </div>
+              `;
+            }
+
+            /*
+            * ------------------------------------------------
+            * CLASES DINÁMICAS
+            * ------------------------------------------------
+            */
+
+            const clases = [
+              "ranking-item"
+            ];
+
+            if (esPrimero) {
+              clases.push("leader");
+            }
+
+            if (hayEmpate) {
+              clases.push("tie");
+            }
+
+            /*
+            * ------------------------------------------------
+            * HTML
+            * ------------------------------------------------
+            */
+
             return `
-              <div class="ranking-item">
+              <div class="${clases.join(" ")}">
+
                 <div class="ranking-position">
                   ${candidato.posicion}
                 </div>
+
                 <div class="ranking-candidate">
+
                   <div class="ranking-name">
                     ${candidato.nombre}
                   </div>
+
                   <div class="ranking-area">
                     ${candidato.area}
                   </div>
+
+                  ${estadoHTML}
+
                 </div>
+
                 <div class="ranking-votes">
-                  <span
-                    class="ranking-votes-number"
-                  >
+
+                  <span class="ranking-votes-number">
                     ${candidato.votos}
                   </span>
-                  <span
-                    class="ranking-votes-label"
-                  >
+
+                  <span class="ranking-votes-label">
                     votos
                   </span>
+
+                  ${diferenciaHTML}
+
                 </div>
+
               </div>
+
+              ${mensajeEmpateHTML}
             `;
           }
         ).join("");
     }
+
+
     /**
      * ------------------------------------------------------
      * VOTOS POR ÁREA
