@@ -331,6 +331,123 @@
         var(--gold-light);
       font-size: 26px;
     }
+
+    /* ======================================================
+      DISTRIBUCIÓN MISS / MISTER
+      ====================================================== */
+    .distribution-section {
+      margin-top: 35px;
+    }
+
+    .distribution-card {
+      background:
+        var(--card);
+      border:
+        1px solid
+        var(--border);
+      border-radius:
+        var(--radius);
+      padding:
+        24px;
+      box-shadow:
+        var(--shadow);
+    }
+
+    .distribution-item + .distribution-item {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top:
+        1px solid
+        var(--border);
+    }
+
+    .distribution-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .distribution-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .distribution-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background:
+        var(--background);
+      font-size: 18px;
+    }
+
+    .distribution-name {
+      color:
+        var(--primary);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+    }
+
+    .distribution-description {
+      margin-top: 3px;
+      color:
+        var(--text-secondary);
+      font-size: 11px;
+    }
+
+    .distribution-summary {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .distribution-votes {
+      color:
+        var(--primary);
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .distribution-percentage {
+      color:
+        var(--gold);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .distribution-bar {
+      width: 100%;
+      height: 12px;
+      margin-top: 14px;
+      overflow: hidden;
+      border-radius: 999px;
+      background:
+        var(--background);
+    }
+
+    .distribution-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition:
+        width 0.6s ease;
+    }
+
+    .distribution-bar-fill.miss {
+      background:
+        var(--gold);
+    }
+
+    .distribution-bar-fill.mister {
+      background:
+        var(--primary);
+    }
+
     /* ======================================================
        CANDIDATOS
        ====================================================== */
@@ -905,6 +1022,101 @@
     </section>
 
       <!-- ==================================================
+           DISTRIBUCIÓN MISS / MISTER
+           ================================================== -->
+      <section class="distribution-section">
+        <h3 class="section-title">
+          Distribución de votos
+        </h3>
+
+        <div class="distribution-card">
+
+          <!-- MISS -->
+          <div class="distribution-item">
+            <div class="distribution-header">
+              <div class="distribution-title">
+                <span class="distribution-icon">👑</span>
+                <div>
+                  <div class="distribution-name">
+                    MISS
+                  </div>
+                  <div class="distribution-description">
+                    Votos recibidos
+                  </div>
+                </div>
+              </div>
+
+              <div class="distribution-summary">
+                <span
+                  class="distribution-votes"
+                  id="distribucionMissVotos"
+                >
+                  0
+                </span>
+
+                <span
+                  class="distribution-percentage"
+                  id="distribucionMissPorcentaje"
+                >
+                  0%
+                </span>
+              </div>
+            </div>
+
+            <div class="distribution-bar">
+              <div
+                class="distribution-bar-fill miss"
+                id="distribucionMissBarra"
+                style="width: 0%;"
+              ></div>
+            </div>
+          </div>
+
+          <!-- MISTER -->
+          <div class="distribution-item">
+            <div class="distribution-header">
+              <div class="distribution-title">
+                <span class="distribution-icon">👑</span>
+                <div>
+                  <div class="distribution-name">
+                    MISTER
+                  </div>
+                  <div class="distribution-description">
+                    Votos recibidos
+                  </div>
+                </div>
+              </div>
+
+              <div class="distribution-summary">
+                <span
+                  class="distribution-votes"
+                  id="distribucionMisterVotos"
+                >
+                  0
+                </span>
+
+                <span
+                  class="distribution-percentage"
+                  id="distribucionMisterPorcentaje"
+                >
+                  0%
+                </span>
+              </div>
+            </div>
+
+            <div class="distribution-bar">
+              <div
+                class="distribution-bar-fill mister"
+                id="distribucionMisterBarra"
+                style="width: 0%;"
+              ></div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==================================================
            MISS
            ================================================== -->
       <section class="candidate-section">
@@ -1062,31 +1274,14 @@
      * ------------------------------------------------------
      */
     function mostrarDashboard(datos) {
-      mostrarResumen(
-        datos.resumen
-      );
-      mostrarCandidatos(
-        datos.miss,
-        "missContainer"
-      );
-      mostrarCandidatos(
-        datos.mister,
-        "misterContainer"
-      );
-      mostrarRanking(
-        datos.ranking.miss,
-        "rankingMissContainer"
-      );
-      mostrarRanking(
-        datos.ranking.mister,
-        "rankingMisterContainer"
-      );
-      mostrarAreas(
-        datos.porArea
-      );
-      mostrarActualizacion(
-        datos.actualizado
-      );
+      mostrarResumen(datos.resumen);
+      mostrarDistribucion(datos.resumen);
+      mostrarCandidatos(datos.miss,"missContainer");
+      mostrarCandidatos(datos.mister,"misterContainer");
+      mostrarRanking(datos.ranking.miss,"rankingMissContainer");
+      mostrarRanking(datos.ranking.mister,"rankingMisterContainer");
+      mostrarAreas(datos.porArea);
+      mostrarActualizacion(datos.actualizado);
     }
     /**
      * ------------------------------------------------------
@@ -1113,6 +1308,46 @@
         "votosMister"
       ).textContent =
         resumen.votosMister;
+    }
+    /**
+     * ------------------------------------------------------
+     * DISTRIBUCIÓN MISS / MISTER
+     * ------------------------------------------------------
+     */
+    function mostrarDistribucion(resumen) {
+      const votosMiss = Number(resumen.votosMiss) || 0;
+      const votosMister = Number(resumen.votosMister) || 0;
+      const votosValidos = Number(resumen.votosValidos) || 0;
+
+      let porcentajeMiss = 0;
+      let porcentajeMister = 0;
+
+      if (votosValidos > 0) {
+        porcentajeMiss = (votosMiss / votosValidos) * 100;
+        porcentajeMister = (votosMister / votosValidos) * 100;
+      }
+      document.getElementById(
+        "distribucionMissVotos"
+      ).textContent = votosMiss;
+      document.getElementById(
+        "distribucionMisterVotos"
+      ).textContent = votosMister;
+      document.getElementById(
+        "distribucionMissPorcentaje"
+      ).textContent =
+        porcentajeMiss.toFixed(1) + "%";
+      document.getElementById(
+        "distribucionMisterPorcentaje"
+      ).textContent =
+        porcentajeMister.toFixed(1) + "%";
+      document.getElementById(
+        "distribucionMissBarra"
+      ).style.width =
+        porcentajeMiss + "%";
+      document.getElementById(
+        "distribucionMisterBarra"
+      ).style.width =
+        porcentajeMister + "%";
     }
     /**
      * ------------------------------------------------------
