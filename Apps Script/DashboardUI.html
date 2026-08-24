@@ -278,60 +278,6 @@
         3px solid
         var(--success);
     }
-    .status-card.pending {
-      border-top:
-        3px solid
-        var(--warning);
-    }
-    .status-card.incident {
-      border-top:
-        3px solid
-        var(--danger);
-    }
-    .status-card.payment {
-      border-top:
-        3px solid
-        var(--gold);
-    }
-    /* ======================================================
-       TOTAL REGISTRADOS
-       ====================================================== */
-    .total-card {
-      margin-top: 16px;
-      background:
-        var(--primary);
-      color:
-        var(--card);
-      border-radius:
-        var(--radius);
-      padding:
-        22px 26px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      box-shadow:
-        var(--shadow);
-    }
-    .total-label {
-      color:
-        rgba(255, 255, 255, 0.65);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-    .total-number {
-      margin-top: 5px;
-      font-size: 30px;
-      font-weight: 700;
-    }
-    .total-badge {
-      color:
-        var(--gold-light);
-      font-size: 26px;
-    }
-
     /* ======================================================
       DISTRIBUCIÓN MISS / MISTER
       ====================================================== */
@@ -803,7 +749,7 @@
       .ranking-item {
         grid-template-columns:
           34px
-          1fr;
+          1fr
           auto;
         gap: 8px;
         padding:
@@ -1523,66 +1469,99 @@
      * CANDIDATOS
      * ------------------------------------------------------
      */
-    function mostrarCandidatos(candidatos,containerId) {
-      const container =
-        document.getElementById(
-          containerId
-        );
-      const ordenAreas = [
-        "GTH",
-        "LTK & FNZ",
-        "MKT",
-        "PMO",
-        "TI"
-      ];
-      const lista =
-        Object.values(candidatos).sort(
-          (a, b) =>
-            ordenAreas.indexOf(a.area) -
-            ordenAreas.indexOf(b.area)
-        );
-      container.innerHTML =
-        lista.map(
-          candidato => {
-            return `
-              <article class="candidate-card">
-                <div class="candidate-image-wrapper">
-                  <img
-                    class="candidate-image"
-                    src="${candidato.imagen}"
-                    alt="${candidato.nombre}"
-                    loading="lazy"
-                  >
-                  <div class="candidate-position">
-                    ${candidato.tipo}
-                  </div>
-                </div>
-                <div class="candidate-info">
-                  <div class="candidate-area">
-                    ${candidato.area}
-                  </div>
-                  <div class="candidate-name">
-                    ${candidato.nombre}
-                  </div>
-                  <div class="candidate-votes">
-                    <span
-                      class="candidate-votes-number"
-                    >
-                      ${candidato.votos}
-                    </span>
-                    <span
-                      class="candidate-votes-label"
-                    >
-                      votos
-                    </span>
-                  </div>
-                </div>
-              </article>
-            `;
-          }
-        ).join("");
-    }
+    function mostrarCandidatos(candidatos, containerId) {
 
+      const container = document.getElementById(containerId);
+
+      if (!container) {
+        return;
+      }
+      if (!candidatos || typeof candidatos !== "object") {
+        container.innerHTML = `
+          <div class="candidate-card">
+            <div class="candidate-info">
+              <div class="candidate-name">
+                Información no disponible
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      const ordenAreas = ["GTH","LTK & FNZ","MKT","PMO","TI"];
+
+      const lista = Object.values(candidatos).filter(
+        candidato => candidato && typeof candidato === "object"
+      )
+      .sort(
+        (a, b) => {
+          const posicionA = ordenAreas.indexOf(a.area);
+          const posicionB = ordenAreas.indexOf(b.area);
+          return (posicionA - posicionB);
+        }
+      );
+      if (lista.length === 0) {
+        container.innerHTML = `
+          <div class="candidate-card">
+            <div class="candidate-info">
+              <div class="candidate-name">
+                No hay candidatos registrados.
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      container.innerHTML =
+        lista
+          .map(
+            candidato => {
+              const nombre = candidato.nombre || "Nombre no disponible";
+              const area = candidato.area || "Área no disponible";
+              const tipo = candidato.tipo || "Candidato";
+              const imagen = candidato.imagen || "";
+              const votos = Number(candidato.votos) || 0;
+
+              return `
+                <article class="candidate-card">
+                  <div class="candidate-image-wrapper">
+                    ${
+                      imagen
+                        ? `
+                          <img class="candidate-image" src="${imagen}" alt="${nombre}" loading="lazy">
+                        `
+                        : `
+                          <div
+                            class="candidate-image"
+                            style="
+                              display:flex;
+                              align-items:center;
+                              justify-content:center;
+                              color:#999;
+                              font-size:12px;
+                            "
+                          >
+                            Imagen no disponible
+                          </div>
+                        `
+                    }
+                    <div class="candidate-position"> ${tipo} </div>
+                  </div>
+
+                  <div class="candidate-info">
+                    <div class="candidate-area"> ${area} </div>
+                    <div class="candidate-name"> ${nombre} </div>
+                    <div class="candidate-votes">
+                      <span class="candidate-votes-number"> ${votos} </span>
+                      <span class="candidate-votes-label"> votos </span>
+                    </div>
+                  </div>
+                </article>
+              `;
+            }
+          )
+          .join("");
+    }
     /**
      * ------------------------------------------------------
      * RANKING / LIDERAZGO
@@ -1590,52 +1569,82 @@
      */
     function mostrarRanking(ranking, containerId) {
       const container = document.getElementById(containerId);
-
-      if (!ranking || ranking.length === 0) {
+      if (!container) {
+        console.error("No se encontró el contenedor del ranking:", containerId);
+        return;
+      }
+      /**
+       * ----------------------------------------------------
+       * VALIDACIÓN DEL RANKING
+       * ----------------------------------------------------
+       */
+      if (!Array.isArray(ranking)) {
+        console.warn("Ranking inválido o inexistente:", ranking);
         container.innerHTML = `
           <div class="ranking-item">
             <div class="ranking-candidate">
-              <div class="ranking-name">
-                Sin resultados
-              </div>
+              <div class="ranking-name"> Sin resultados </div>
             </div>
           </div>
         `;
         return;
       }
-      /*
-      * ----------------------------------------------------
-      * ORDENAR POR VOTOS
-      * ----------------------------------------------------
-      *
-      * Aunque el backend ya entregue el ranking ordenado,
-      * aquí garantizamos que el frontend trabaje con los
-      * votos reales.
-      */
-      const lista =
-        [...ranking].sort(
-          (a, b) =>
-            Number(b.votos) - Number(a.votos)
-        );
-      /*
-      * ----------------------------------------------------
-      * CALCULAR POSICIONES COMPETITIVAS
-      * ----------------------------------------------------
-      *
-      * Ejemplo:
-      *
-      * 20 votos → 1
-      * 20 votos → 1
-      * 15 votos → 3
-      *
-      * Esto corresponde al ranking competitivo.
-      */
+      /**
+       * ----------------------------------------------------
+       * FILTRAR REGISTROS VÁLIDOS
+       * ----------------------------------------------------
+       *
+       * Conservamos únicamente elementos que realmente
+       * puedan utilizarse para construir el ranking.
+       */
+      const listaValida = ranking.filter(candidato => {
+        if (!candidato || typeof candidato !== "object") {
+          return false;
+        }
+        return true;
+      });
+      if (listaValida.length === 0) {
+        container.innerHTML = `
+          <div class="ranking-item">
+            <div class="ranking-candidate">
+              <div class="ranking-name"> Sin resultados </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      /**
+       * ----------------------------------------------------
+       * NORMALIZAR DATOS
+       * ----------------------------------------------------
+       */
+      const lista = listaValida.map(candidato => {
+        const votos = Number(candidato.votos);
+        return {
+          ...candidato,
+          nombre: candidato.nombre || "Candidato sin nombre",
+          area: candidato.area || "Área no disponible",
+          votos: Number.isFinite(votos)? votos : 0
+        };
+      }).sort((a, b) => b.votos - a.votos);
+      /**
+       * ----------------------------------------------------
+       * CALCULAR POSICIONES COMPETITIVAS
+       * ----------------------------------------------------
+       *
+       * Ejemplo:
+       *
+       * 20 votos → 1
+       * 20 votos → 1
+       * 15 votos → 3
+       *
+       * Esto corresponde al ranking competitivo.
+       */
       const listaProcesada = [];
       lista.forEach(
         (candidato, index) => {
           const votos = Number(candidato.votos) || 0;
           let posicion = index + 1;
-
           if (index > 0 && votos === listaProcesada[index - 1].votos) {
             posicion = listaProcesada[index - 1].posicion;
           }
@@ -1646,150 +1655,120 @@
           });
         }
       );
-      /*
-      * ----------------------------------------------------
-      * GENERAR HTML
-      * ----------------------------------------------------
-      */
-      container.innerHTML =
-        listaProcesada.map(
-          (candidato, index) => {
-            const votosActuales = candidato.votos;
-            const votosSiguiente =
-              index < listaProcesada.length - 1
-                ? listaProcesada[index + 1].votos
-                : null;
-            /*
-            * ¿Es líder?
-            */
-            const esPrimero = candidato.posicion === 1;
-            /*
-            * ¿Está empatado?
-            */
-            const empateConAnterior =
-              index > 0 &&
-              votosActuales ===
-              listaProcesada[index - 1].votos;
-
-            const empateConSiguiente =
-              votosSiguiente !== null &&
-              votosActuales === votosSiguiente;
-
-            const hayEmpate = empateConAnterior || empateConSiguiente;
-            /*
-            * ------------------------------------------------
-            * DIFERENCIA CON EL SIGUIENTE
-            * ------------------------------------------------
-            */
-            let diferenciaHTML = "";
-            if (votosSiguiente !== null && votosActuales > votosSiguiente) {
-              const diferencia = votosActuales - votosSiguiente;
-
-              diferenciaHTML = `
-                <div class="ranking-difference">
-                  <strong>+${diferencia}</strong>
-                  frente al siguiente
-                </div>
-              `;
-            } else if (votosSiguiente !== null && votosActuales === votosSiguiente) {
-              diferenciaHTML = `
-                <div class="ranking-difference">
-                  Empatado con el siguiente
-                </div>
-              `;
-            } else {
-              diferenciaHTML = `
-                <div class="ranking-difference">
-                  Última posición
-                </div>
-              `;
-            }
-            /*
-            * ------------------------------------------------
-            * ESTADO DEL CANDIDATO
-            * ------------------------------------------------
-            */
-            let estadoHTML = "";
-            if (esPrimero && hayEmpate) {
-              estadoHTML = `
-                <div class="ranking-status tie-status">
-                  🤝 Empate en el 1.er puesto
-                </div>
-              `;
-            } else if (esPrimero) {
-              estadoHTML = `
-                <div class="ranking-status">
-                  👑 Líder
-                </div>
-              `;
-            } else if (hayEmpate) {
-              estadoHTML = `
-                <div class="ranking-status tie-status">
-                  🤝 Empate
-                </div>
-              `;
-            }
-            /*
-            * ------------------------------------------------
-            * MENSAJE DE EMPATE
-            * ------------------------------------------------
-            */
-            let mensajeEmpateHTML = "";
-            if (esPrimero && hayEmpate) {
-              mensajeEmpateHTML = `
-                <div class="ranking-tie-message">
-                  🤝 Existe un empate por el primer puesto.
-                  La posición se mantiene compartida.
-                </div>
-              `;
-            }
-            /*
-            * ------------------------------------------------
-            * CLASES DINÁMICAS
-            * ------------------------------------------------
-            */
-            const clases = [
-              "ranking-item"
-            ];
-            if (esPrimero) {
-              clases.push("leader");
-            }
-            if (hayEmpate) {
-              clases.push("tie");
-            }
-            /*
-            * ------------------------------------------------
-            * HTML
-            * ------------------------------------------------
-            */
-            return `
-              <div class="${clases.join(" ")}">
-                <div class="ranking-position">
-                  ${candidato.posicion}
-                </div>
-                <div class="ranking-candidate">
-                  <div class="ranking-name">
-                    ${candidato.nombre}
-                  </div>
-                  <div class="ranking-area">
-                    ${candidato.area}
-                  </div>
-                  ${estadoHTML}
-                </div>
-                <div class="ranking-votes">
-                  <span class="ranking-votes-number">
-                    ${candidato.votos}
-                  </span>
-                  <span class="ranking-votes-label">
-                    votos
-                  </span>
-                  ${diferenciaHTML}
-                </div>
+      /**
+       * ----------------------------------------------------
+       * GENERAR HTML
+       * ----------------------------------------------------
+       */
+      container.innerHTML = listaProcesada.map(
+        (candidato, index) => {
+          const votosActuales = candidato.votos;
+          const votosSiguiente = index < listaProcesada.length - 1 ? listaProcesada[index + 1].votos : null;
+          /**
+           * ------------------------------------------------
+           * ¿ES LÍDER?
+           * ------------------------------------------------
+           */
+          const esPrimero = candidato.posicion === 1;
+          /**
+           * ------------------------------------------------
+           * ¿ESTÁ EMPATADO?
+           * ------------------------------------------------
+           */
+          const empateConAnterior = index > 0 && votosActuales === listaProcesada[index - 1].votos;
+          const empateConSiguiente = votosSiguiente !== null && votosActuales === votosSiguiente;
+          const hayEmpate = empateConAnterior || empateConSiguiente;
+          /**
+           * ------------------------------------------------
+           * DIFERENCIA CON EL SIGUIENTE
+           * ------------------------------------------------
+           */
+          let diferenciaHTML = "";
+          if (votosSiguiente !== null && votosActuales > votosSiguiente) {
+            const diferencia = votosActuales - votosSiguiente;
+            diferenciaHTML = `
+              <div class="ranking-difference">
+                <strong>+${diferencia}</strong>
+                frente al siguiente
               </div>
-              ${mensajeEmpateHTML}
+            `;
+          } else if (votosSiguiente !== null && votosActuales === votosSiguiente) {
+            diferenciaHTML = `<div class="ranking-difference"> Empatado con el siguiente </div>`;
+          } else {
+            diferenciaHTML = `<div class="ranking-difference"> Última posición </div>`;
+          }
+          /**
+           * ------------------------------------------------
+           * ESTADO DEL CANDIDATO
+           * ------------------------------------------------
+           */
+          let estadoHTML = "";
+          if (esPrimero && hayEmpate) {
+            estadoHTML = `<div class="ranking-status tie-status"> 🤝 Empate en el 1.er puesto </div>`;
+          } else if (esPrimero) {
+            estadoHTML = `<div class="ranking-status"> 👑 Líder </div>`;
+          } else if (hayEmpate) {
+            estadoHTML = `<div class="ranking-status tie-status"> 🤝 Empate </div>`;
+          }
+          /**
+           * ------------------------------------------------
+           * MENSAJE DE EMPATE
+           * ------------------------------------------------
+           */
+          let mensajeEmpateHTML = "";
+          if (esPrimero && hayEmpate) {
+            mensajeEmpateHTML = `
+              <div class="ranking-tie-message">
+                🤝 Existe un empate por el primer puesto.
+                La posición se mantiene compartida.
+              </div>
             `;
           }
-        ).join("");
+          /**
+           * ------------------------------------------------
+           * CLASES DINÁMICAS
+           * ------------------------------------------------
+           */
+          const clases = ["ranking-item"];
+          if (esPrimero) {
+            clases.push("leader");
+          }
+          if (hayEmpate) {
+            clases.push("tie");
+          }
+          /**
+           * ------------------------------------------------
+           * HTML
+           * ------------------------------------------------
+           */
+          return `
+            <div class="${clases.join(" ")}">
+              <div class="ranking-position">
+                ${candidato.posicion}
+              </div>
+              <div class="ranking-candidate">
+                <div class="ranking-name">
+                  ${candidato.nombre}
+                </div>
+                <div class="ranking-area">
+                  ${candidato.area}
+                </div>
+                ${estadoHTML}
+              </div>
+              <div class="ranking-votes">
+                <span class="ranking-votes-number">
+                  ${candidato.votos}
+                </span>
+                <span class="ranking-votes-label">
+                  votos
+                </span>
+                ${diferenciaHTML}
+              </div>
+            </div>
+            ${mensajeEmpateHTML}
+          `;
+        }
+      ).join("");
     }
     /**
      * ------------------------------------------------------
@@ -1797,56 +1776,106 @@
      * ------------------------------------------------------
      */
     function mostrarAreas(areas) {
-      const container =document.getElementById("areasContainer");
-      const ordenAreas = [
-        "GTH",
-        "LTK & FNZ",
-        "MKT",
-        "PMO",
-        "TI"
-      ];
-      const lista =
-        Object.values(areas).sort(
-          (a, b) =>
-            ordenAreas.indexOf(a.area) -
-            ordenAreas.indexOf(b.area)
-        );
+      const container = document.getElementById("areasContainer");
+
+      if (!container) {
+        console.warn("No se encontró el contenedor de áreas.");
+        return;
+      }
+      /*
+      * ----------------------------------------------------
+      * VALIDAR DATOS
+      * ----------------------------------------------------
+      */
+      if (!areas || typeof areas !== "object") {
+        container.innerHTML = `
+          <div class="area-card">
+            <div class="area-name"> Sin información </div>
+            <div class="area-label"> No hay datos disponibles. </div>
+          </div>
+        `;
+        return;
+      }
+      /*
+      * ----------------------------------------------------
+      * ORDEN DE LAS ÁREAS
+      * ----------------------------------------------------
+      */
+      const ordenAreas = ["GTH","LTK & FNZ","MKT","PMO","TI"];
+      /*
+      * ----------------------------------------------------
+      * FILTRAR Y NORMALIZAR DATOS
+      * ----------------------------------------------------
+      */
+      const lista = Object.values(areas).filter(area =>
+        area && typeof area === "object"
+      )
+      .map(area => {
+        const nombreArea = typeof area.area === "string" && area.area.trim() !== "" ? area.area.trim() : "Área no identificada";
+        const votos = Number(area.votos) || 0;
+        const miss = Number(area.miss) || 0;
+        const mister = Number(area.mister) || 0;
+        return {
+          area: nombreArea,
+          votos: votos,
+          miss: miss,
+          mister: mister
+        };
+      })
+      .sort((a, b) => {
+        const posicionA = ordenAreas.indexOf(a.area);
+        const posicionB = ordenAreas.indexOf(b.area);
+        /*
+          * Las áreas conocidas mantienen
+          * el orden establecido.
+          *
+          * Cualquier área desconocida
+          * se coloca al final.
+          */
+        const ordenA = posicionA === -1 ? 999 : posicionA;
+        const ordenB = posicionB === -1 ? 999 : posicionB;
+        return ordenA - ordenB;
+      });
+
+      /*
+      * ----------------------------------------------------
+      * SI NO HAY ÁREAS VÁLIDAS
+      * ----------------------------------------------------
+      */
+      if (lista.length === 0) {
+        container.innerHTML = `
+          <div class="area-card">
+            <div class="area-name"> Sin información </div>
+            <div class="area-label"> No hay datos de áreas disponibles. </div>
+          </div>
+        `;
+        return;
+      }
+      /*
+      * ----------------------------------------------------
+      * GENERAR HTML
+      * ----------------------------------------------------
+      */
       container.innerHTML =
-        lista.map(
-          area => {
-            return `
-              <article class="area-card">
-                <div class="area-name">
-                  ${area.area}
+        lista.map(area => {
+          return `
+            <article class="area-card">
+              <div class="area-name"> ${area.area} </div>
+              <div class="area-total"> ${area.votos} </div>
+              <div class="area-label"> votos válidos </div>
+              <div class="area-breakdown">
+                <div class="area-type">
+                  <strong> ${area.miss} </strong>
+                  <span> Miss </span>
                 </div>
-                <div class="area-total">
-                  ${area.votos}
+                <div class="area-type">
+                  <strong> ${area.mister} </strong>
+                  <span> Mister </span>
                 </div>
-                <div class="area-label">
-                  votos válidos
-                </div>
-                <div class="area-breakdown">
-                  <div class="area-type">
-                    <strong>
-                      ${area.miss}
-                    </strong>
-                    <span>
-                      Miss
-                    </span>
-                  </div>
-                  <div class="area-type">
-                    <strong>
-                      ${area.mister}
-                    </strong>
-                    <span>
-                      Mister
-                    </span>
-                  </div>
-                </div>
-              </article>
-            `;
-          }
-        ).join("");
+              </div>
+            </article>
+          `;
+        }).join("");
     }
     /**
      * ------------------------------------------------------
