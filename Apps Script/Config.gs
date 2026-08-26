@@ -58,6 +58,24 @@ const CANDIDATE_IMAGES = {
 
 /**
  * ----------------------------------------------------------
+ * NOMBRES REALES DE CANDIDATOS
+ * ----------------------------------------------------------
+ */
+const CANDIDATE_NAMES = {
+  "Miss GTH": "Valeria Valderrama",
+  "Miss LTK & FNZ": "Dalia García",
+  "Miss MKT": "Lorena Primo",
+  "Miss PMO": "Angela Loayza",
+  "Miss TI": "Jhoanny Vargas",
+  "Mister GTH": "José Paria",
+  "Mister LTK & FNZ": "Néstor Plasencia",
+  "Mister MKT": "Luis Lecca",
+  "Mister PMO": "Rodrigo Quispe",
+  "Mister TI": "Pablo Sánchez"
+};
+
+/**
+ * ----------------------------------------------------------
  * COLORES
  * ----------------------------------------------------------
  */
@@ -161,12 +179,12 @@ const CODE = {
  */
 const COLUMNS = {
   TIMESTAMP: 1,
-  LASTNAME: 2,
-  NAME: 3,
-  PHONE: 4,
-  AREA: 5,
-  CANDIDATE: 6,
-  EMAIL: 7,
+  EMAIL: 2,
+  LASTNAME: 3,
+  NAME: 4,
+  PHONE: 5,
+  AREA: 6,
+  CANDIDATE: 7,
   CODE: 8,
   QR: 9,
   SENT_DATE: 10,

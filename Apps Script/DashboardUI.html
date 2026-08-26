@@ -520,20 +520,21 @@
       padding:
         17px;
     }
+    .candidate-name {
+      font-size: 15px;
+      font-weight: 700;
+      color:
+        var(--primary);
+    }
+
     .candidate-area {
+      margin-top: 5px;
       color:
         var(--text-secondary);
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 1.2px;
       text-transform: uppercase;
-    }
-    .candidate-name {
-      margin-top: 5px;
-      font-size: 15px;
-      font-weight: 700;
-      color:
-        var(--primary);
     }
     .candidate-votes {
       display: flex;
@@ -1001,7 +1002,6 @@
         grid-template-columns:
           1fr;
       }
-      .total-card,
       .system-card {
         align-items:
           flex-start;
@@ -1562,7 +1562,7 @@
         lista
           .map(
             candidato => {
-              const nombre = candidato.nombre || "Nombre no disponible";
+              const nombre = candidato.nombreReal || candidato.nombre || "Nombre no disponible";
               const area = candidato.area || "Área no disponible";
               const tipo = candidato.tipo || "Candidato";
               const imagen = candidato.imagen || "";
@@ -1593,10 +1593,9 @@
                     }
                     <div class="candidate-position"> ${tipo} </div>
                   </div>
-
                   <div class="candidate-info">
-                    <div class="candidate-area"> ${area} </div>
                     <div class="candidate-name"> ${nombre} </div>
+                    <div class="candidate-area"> ${area} </div>
                     <div class="candidate-votes">
                       <span class="candidate-votes-number"> ${votos} </span>
                       <span class="candidate-votes-label"> votos </span>
@@ -1668,7 +1667,7 @@
         const votos = Number(candidato.votos);
         return {
           ...candidato,
-          nombre: candidato.nombre || "Candidato sin nombre",
+          nombre: candidato.nombreReal || candidato.nombre || "Candidato sin nombre",
           area: candidato.area || "Área no disponible",
           votos: Number.isFinite(votos)? votos : 0
         };

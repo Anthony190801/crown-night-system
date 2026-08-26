@@ -318,6 +318,7 @@ function inicializarCandidatos(tipo) {
 
     resultado[nombre] = {
       nombre: nombre,
+      nombreReal: CANDIDATE_NAMES[nombre] || nombre,
       tipo: tipo,
       area: area,
       votos: 0,
@@ -373,6 +374,7 @@ function construirRanking(candidatos) {
       return {
         posicion: indice + 1,
         nombre: candidato.nombre,
+        nombreReal: candidato.nombreReal,
         tipo: candidato.tipo,
         area: candidato.area,
         votos: candidato.votos,
